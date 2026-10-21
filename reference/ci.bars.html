@@ -40,7 +40,8 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ci.bars</span><span class="op">(</span><span class="va">dat</span>, <span class="va">design</span>, factnames <span class="op">=</span> <span class="cn">NA</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, inn.tier <span class="op">=</span> <span class="st">"cind"</span>, out.tier <span class="op">=</span> <span class="cn">NA</span>, main <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="cn">NULL</span>, barmin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ci.bars</span><span class="op">(</span><span class="va">dat</span>, <span class="va">design</span>, factnames <span class="op">=</span> <span class="cn">NA</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, inn.tier <span class="op">=</span> <span class="st">"cind"</span>,</span>
+<span>  out.tier <span class="op">=</span> <span class="cn">NA</span>, main <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="cn">NULL</span>, barmin <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -76,7 +77,7 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A bar graph is drawn as a side effect.</p>
+    <p>A bar graph is drawn on the current graphics device as a side effect.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -86,7 +87,141 @@
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>ANOVA-kun: <a href="https://riseki.cloudfree.jp/?ANOVA%E5%90%9B" class="external-link">https://riseki.cloudfree.jp/?ANOVA%E5%90%9B</a></p>
     </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="anovakun.html">anovakun</a></code></p></div>
+    </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  A    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a1"</span>, <span class="st">"a1"</span>, <span class="st">"a1"</span>, <span class="st">"a2"</span>, <span class="st">"a2"</span>, <span class="st">"a2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  b1c1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">13</span>, <span class="fl">11</span>, <span class="fl">18</span>, <span class="fl">17</span>, <span class="fl">15</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  b1c2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">9</span>, <span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">12</span>, <span class="fl">14</span>, <span class="fl">13</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  b2c1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">14</span>, <span class="fl">14</span>, <span class="fl">13</span>, <span class="fl">16</span>, <span class="fl">15</span>, <span class="fl">18</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  b2c2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">12</span>, <span class="fl">15</span>, <span class="fl">15</span>, <span class="fl">14</span>, <span class="fl">15</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Usually drawn through the bgraph option of anovakun()</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="anovakun.html">anovakun</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"AsBC"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, bgraph <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cind"</span>, <span class="st">"cin"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ AsBC-Type Design ]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> This output was generated by anovakun 4.8.9 under R version 4.6.1.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> It was executed on Wed Oct 21 22:16:21 2026.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;&lt; DESCRIPTIVE STATISTICS &gt;&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> == Cousineau-Morey-Baguley's Difference-Adjusted Normalized Confidence Intervals ==</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> == Cousineau-Morey's Normalized Confidence Intervals ==</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> == 95% confidence intervals are calculated. ==</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A   B   C   n     Mean    S.D.   CIND-L   CIND-U    CIN-L    CIN-U </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a1  b1  c1   3  12.0000  1.0000   9.9507  14.0493   9.1018  14.8982 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a1  b1  c2   3   9.6667  0.5774   8.7884  10.5449   8.4246  10.9087 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a1  b2  c1   3  13.6667  0.5774  12.3251  15.0083  11.7694  15.5640 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a1  b2  c2   3  13.3333  1.5275  10.2768  16.3898   9.0108  17.6559 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a2  b1  c1   3  16.6667  1.5275  13.5000  19.8333  12.1883  21.1450 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a2  b1  c2   3  13.0000  1.0000  10.7135  15.2865   9.7664  16.2336 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a2  b2  c1   3  16.3333  1.5275  13.4500  19.2167  12.2557  20.4110 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  a2  b2  c2   3  14.6667  0.5774  13.7884  15.5449  13.4246  15.9087 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;&lt; SPHERICITY INDICES &gt;&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> == Mendoza's Multisample Sphericity Test and Epsilons ==</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Effect  Lambda  approx.Chi  df      p         LB     GG     HF     CM </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Global  0.0000         Inf  11 0.0000 *** 0.3333 0.8563 2.5262 1.0916 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       B  0.7696      0.3928   1 0.5308 ns  1.0000 1.0000 1.0000 1.0000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       C  0.6011      0.7635   1 0.3822 ns  1.0000 1.0000 1.0000 1.0000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B x C  0.3600      1.5325   1 0.2157 ns  1.0000 1.0000 1.0000 1.0000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                               LB = lower.bound, GG = Greenhouse-Geisser</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              HF = Huynh-Feldt-Lecoutre, CM = Chi-Muller</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;&lt; ANOVA TABLE &gt;&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Source        SS  df       MS   F-ratio  p-value      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              A   54.0000   1  54.0000  648.0000   0.0000 ***  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          s x A    0.3333   4   0.0833                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              B   16.6667   1  16.6667    8.0000   0.0474 *    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          A x B    6.0000   1   6.0000    2.8800   0.1649 ns   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      s x A x B    8.3333   4   2.0833                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              C   24.0000   1  24.0000   15.1579   0.0176 *    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          A x C    2.6667   1   2.6667    1.6842   0.2641 ns   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      s x A x C    6.3333   4   1.5833                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          B x C    6.0000   1   6.0000    4.8000   0.0936 +    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      A x B x C    0.0000   1   0.0000    0.0000   1.0000 ns   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  s x A x B x C    5.0000   4   1.2500                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Total  129.3333  23   5.6232                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     +p &lt; .10, *p &lt; .05, **p &lt; .01, ***p &lt; .001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;&lt; POST ANALYSES &gt;&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt; SIMPLE EFFECTS for "B x C" INTERACTION &gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B   C   n     Mean    S.D. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  b1  c1   6  14.3333  2.8048 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  b1  c2   6  11.3333  1.9664 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  b2  c1   6  15.0000  1.7889 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  b2  c2   6  14.0000  1.2649 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Effect  Lambda  approx.Chi  df      p         LB     GG     HF     CM </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  B at c1  0.1479      2.8665   1 0.0904 +   1.0000 1.0000 1.0000 1.0000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  B at c2  1.0000     -0.0000   1 1.0000 ns  1.0000 1.0000 1.0000 1.0000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  C at b1  0.7197      0.4933   1 0.4824 ns  1.0000 1.0000 1.0000 1.0000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  C at b2  0.7197      0.4933   1 0.4824 ns  1.0000 1.0000 1.0000 1.0000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                LB = lower.bound, GG = Greenhouse-Geisser</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                               HF = Huynh-Feldt-Lecoutre, CM = Chi-Muller</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Source       SS  df       MS  F-ratio  p-value     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      B at c1   1.3333   1   1.3333   0.6154   0.4766 ns  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  s x B at c1   8.6667   4   2.1667                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      B at c2  21.3333   1  21.3333  18.2857   0.0129 *   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  s x B at c2   4.6667   4   1.1667                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      C at b1  27.0000   1  27.0000  19.0588   0.0120 *   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  s x C at b1   5.6667   4   1.4167                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      C at b2   3.0000   1   3.0000   2.1176   0.2193 ns  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  s x C at b2   5.6667   4   1.4167                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                +p &lt; .10, *p &lt; .05, **p &lt; .01, ***p &lt; .001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> output is over --------------------///</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-plt img"><img src="ci.bars-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Direct use on the long-format data that anovakun() builds internally</span></span></span>
+<span class="r-in"><span><span class="va">long</span> <span class="op">&lt;-</span> <span class="fu"><a href="anovakun.html">anovakun</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"AsBC"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, tech <span class="op">=</span> <span class="cn">TRUE</span>, data.frame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">DATA.FRAME</span></span></span>
+<span class="r-in"><span><span class="fu">ci.bars</span><span class="op">(</span><span class="va">long</span>, <span class="st">"AsBC"</span>, inn.tier <span class="op">=</span> <span class="st">"cind"</span>, out.tier <span class="op">=</span> <span class="st">"cin"</span>, main <span class="op">=</span> <span class="st">"AsBC design"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="ci.bars-2.png" alt="" width="700" height="433"></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -37,8 +37,20 @@
 <h2 class="pkg-version" data-toc-text="1.0.0" id="anovakun-100">anovakun 1.0.0<a class="anchor" aria-label="anchor" href="#anovakun-100"></a></h2>
 <ul><li>First release as an R package. It contains ‘ANOVA-kun’ 4.8.9 by Ryuta Iseki (<a href="https://riseki.cloudfree.jp/?ANOVA%E5%90%9B" class="external-link uri">https://riseki.cloudfree.jp/?ANOVA%E5%90%9B</a>) without changes to its computations.</li>
 <li>Tests compare <code><a href="../reference/anovakun.html">anovakun()</a></code> and <code><a href="../reference/anovatan.html">anovatan()</a></code> with the original source (<code>inst/original/</code>) across designs and options.</li>
+</ul><div class="section level3">
+<h3 id="changes-from-the-original-source-no-effect-on-the-results-1-0-0">Changes from the original source (no effect on the results)<a class="anchor" aria-label="anchor" href="#changes-from-the-original-source-no-effect-on-the-results-1-0-0"></a></h3>
+<ul><li>
+<code>ciml = TRUE</code> calls ‘lmerTest’ through its namespace instead of <code><a href="https://github.com/runehaubo/lmerTestR" class="external-link">library(lmerTest)</a></code>; ‘lmerTest’ is a suggested package.</li>
+<li>
+<code><a href="../reference/ci.bars.html">ci.bars()</a></code> draws on the current graphics device instead of opening a new <code><a href="https://rdrr.io/r/grDevices/quartz.html" class="external-link">quartz()</a></code> or <code><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">x11()</a></code> window.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>, <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> and <code><a href="https://rdrr.io/r/base/sink.html" class="external-link">sink()</a></code> (for <code>copy = TRUE</code>) are restored with <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code>, so they are restored even if the analysis stops with an error or returns early (e.g. <code>copy = TRUE</code> with <code>tech = TRUE</code>).</li>
+<li>The operating system (for <code>copy = TRUE</code>, <code><a href="../reference/read.clip.html">read.clip()</a></code>) is detected with <code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>; the original test on <code>.Platform</code> did not recognise macOS when R was built from source.</li>
+<li>Internal functions <code>anova.modeler()</code> and <code>anova.output()</code> were renamed to <code>anova_modeler()</code> and <code>anova_output()</code> so that they are not mistaken for S3 methods of <code><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova()</a></code>. The unused internal function <code>hmean()</code> was removed.</li>
 </ul></div>
-  </main></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
