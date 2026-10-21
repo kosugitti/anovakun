@@ -34,9 +34,18 @@ printed <- function(f, args, seed) {
 # both as the technical output (tech = TRUE) and as printed tables.
 # anovatan() discards the results of tech = TRUE, so `tech = FALSE` skips
 # that comparison.
-expect_same_as_original <- function(fun, args, seed = 1, tech = TRUE) {
+# `error = TRUE` says that the call is expected to stop; otherwise a call
+# that stops is a failure, so that a broken test input cannot pass by
+# producing the same error from both versions.
+expect_same_as_original <- function(fun, args, seed = 1, tech = TRUE, error = FALSE) {
   new_f <- getExportedValue("anovakun", fun)
   old_f <- get(fun, envir = orig)
+
+  old_v <- run_value(old_f, args, seed)
+  if (inherits(old_v, "run_error") && !error) {
+    fail(paste("The original stopped unexpectedly:", old_v))
+  }
+  expect_identical(inherits(old_v, "run_error"), error)
 
   if (tech) {
     targs <- c(args, list(tech = TRUE))

@@ -73,12 +73,13 @@ test_that("anovakun: cases with missing values are removed", {
 
 test_that("anovakun: input errors", {
   d <- designs$AsB
-  expect_same_as_original("anovakun", list(make_wide(d$design, d$levels, d$n), "AsB", 2, 2))
-  expect_same_as_original("anovakun", list(make_wide(d$design, d$levels, d$n), "AsB", 2, 3, holmm = TRUE))
+  expect_same_as_original("anovakun", list(make_wide(d$design, d$levels, d$n), "AsB", 2, 2), error = TRUE)
+  expect_same_as_original("anovakun", list(make_wide(d$design, d$levels, d$n), "AsB", 2, 3, holmm = TRUE), error = TRUE)
 })
 
 test_that("anovakun: multilevel confidence intervals (ciml)", {
   skip_if_not_installed("lmerTest")
+  skip_if_not_installed("pbkrtest")  # Kenward-Roger degrees of freedom
   for (d in designs[c("sA", "AsB", "sAB")]) {
     expect_same_as_original("anovakun", design_args(d, ciml = TRUE))
   }

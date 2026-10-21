@@ -24,5 +24,5 @@ test_that("anovatan: data.frame = TRUE returns the split data", {
 
 test_that("anovatan: no factor to split", {
   d <- designs$AsB
-  expect_same_as_original("anovatan", design_args(d), tech = FALSE)
+  expect_same_as_original("anovatan", design_args(d), tech = FALSE, error = TRUE)
 })

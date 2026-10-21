@@ -6,7 +6,7 @@ make_wide <- function(design, levels, n = 4, seed = 123, missing = 0) {
   set.seed(seed)
   spos <- match("s", strsplit(design, "")[[1]])
   betlev <- levels[seq_len(spos - 1)]
-  withlev <- levels[-seq_len(spos - 1)]
+  withlev <- levels[seq_len(length(levels) - spos + 1) + spos - 1]
   ncell <- if (length(withlev)) prod(withlev) else 1
 
   if (length(betlev)) {
@@ -42,7 +42,7 @@ make_long <- function(design, levels, n = 4, seed = 123) {
   wide <- make_wide(design, levels, n, seed)
   spos <- match("s", strsplit(design, "")[[1]])
   betlen <- spos - 1
-  withlev <- levels[-seq_len(betlen)]
+  withlev <- levels[seq_len(length(levels) - betlen) + betlen]
   nsub <- nrow(wide)
   wcells <- if (length(withlev)) {
     g <- expand.grid(rev(lapply(seq_along(withlev), function(i)
