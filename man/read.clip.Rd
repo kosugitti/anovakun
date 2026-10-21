@@ -17,3 +17,10 @@ A data frame.
 \references{
 ANOVA-kun: \url{https://riseki.cloudfree.jp/?ANOVA\%E5\%90\%9B}
 }
+\examples{
+\dontrun{
+# Copy a table (e.g. from a spreadsheet) to the clipboard, then:
+dat <- read.clip(header = TRUE)
+anovakun(dat, "AsB", 2, 3)
+}
+}

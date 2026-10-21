@@ -5,7 +5,16 @@
 Splits the data by the factor given in \code{tfact} and runs \code{\link{anovakun}} for each level.
 }
 \usage{
-anovatan(dataset, design, ..., tfact = NULL, long = FALSE, type2 = FALSE, nopost = FALSE, tech = FALSE, data.frame = FALSE, copy = FALSE, holm = FALSE, hc = FALSE, s2r = FALSE, s2d = FALSE, fs1 = FALSE, fs2r = FALSE, fs2d = FALSE, welch = FALSE, criteria = FALSE, lb = FALSE, gg = FALSE, hf = FALSE, cm = FALSE, auto = FALSE, mau = FALSE, har = FALSE, iga = FALSE, ciga = FALSE, eta = FALSE, peta = FALSE, geta = NA, eps = FALSE, peps = FALSE, geps = NA, omega = FALSE, omegana = FALSE, pomega = FALSE, gomega = NA, gomegana = NA, prep = FALSE, nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE, cind = FALSE, cin = FALSE, ciml = FALSE, cipaird = FALSE, cipair = FALSE, bgraph = c(NA, NA))
+anovatan(dataset, design, ..., tfact = NULL, long = FALSE, type2 = FALSE,
+  nopost = FALSE, tech = FALSE, data.frame = FALSE, copy = FALSE, holm = FALSE,
+  hc = FALSE, s2r = FALSE, s2d = FALSE, fs1 = FALSE, fs2r = FALSE, fs2d = FALSE,
+  welch = FALSE, criteria = FALSE, lb = FALSE, gg = FALSE, hf = FALSE,
+  cm = FALSE, auto = FALSE, mau = FALSE, har = FALSE, iga = FALSE, ciga = FALSE,
+  eta = FALSE, peta = FALSE, geta = NA, eps = FALSE, peps = FALSE, geps = NA,
+  omega = FALSE, omegana = FALSE, pomega = FALSE, gomega = NA, gomegana = NA,
+  prep = FALSE, nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE,
+  cind = FALSE, cin = FALSE, ciml = FALSE, cipaird = FALSE, cipair = FALSE,
+  bgraph = c(NA, NA))
 }
 \arguments{
   \item{dataset}{A data frame. Between-subjects factors are arranged in columns at the left (one label column per factor) and within-subjects levels across columns (wide format), unless \code{long = TRUE}.}
@@ -54,15 +63,29 @@ anovatan(dataset, design, ..., tfact = NULL, long = FALSE, type2 = FALSE, nopost
   \item{cilm}{If \code{TRUE}, add Loftus-Masson confidence intervals to the descriptive table.}
   \item{cind}{If \code{TRUE}, add difference-adjusted normalized confidence intervals to the descriptive table.}
   \item{cin}{If \code{TRUE}, add normalized confidence intervals to the descriptive table.}
-  \item{ciml}{If \code{TRUE}, add confidence intervals based on a multilevel model (requires the \pkg{lmerTest} package).}
+  \item{ciml}{If \code{TRUE}, add confidence intervals based on a multilevel model (requires the \pkg{lmerTest} and \pkg{pbkrtest} packages).}
   \item{cipaird}{If \code{TRUE}, output difference-adjusted pairwise confidence intervals.}
   \item{cipair}{If \code{TRUE}, output pairwise confidence intervals.}
   \item{bgraph}{Names of confidence-interval options (inner and outer, up to two) for drawing a bar graph with confidence intervals.}
 }
 \value{
-Results of \code{anovakun} for each level.
+The results are printed. If \code{data.frame = TRUE}, the list of the
+split data frames is returned.
 }
 \author{Ryuta Iseki (author); packaged by Koji Kosugi.}
 \references{
 ANOVA-kun: \url{https://riseki.cloudfree.jp/?ANOVA\%E5\%90\%9B}
+}
+\seealso{\code{\link{anovakun}}}
+\examples{
+# AsBC design: A (2 levels, between) x B (2 levels, within) x C (2 levels, within)
+dat <- data.frame(
+  A    = c("a1", "a1", "a1", "a2", "a2", "a2"),
+  b1c1 = c(12, 13, 11, 18, 17, 15),
+  b1c2 = c( 9, 10, 10, 12, 14, 13),
+  b2c1 = c(14, 14, 13, 16, 15, 18),
+  b2c2 = c(13, 12, 15, 15, 14, 15)
+)
+# Simple effects of B and C at each level of A
+anovatan(dat, "AsBC", 2, 2, 2, tfact = "A")
 }

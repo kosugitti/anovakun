@@ -5,7 +5,16 @@
 Performs analysis of variance for between-subjects, within-subjects, and mixed designs, given the design type and the number of levels of each factor. Post hoc analyses (multiple comparisons and simple effects), sphericity tests and corrections, effect sizes and confidence intervals are included. This is the ANOVA-kun function written by Ryuta Iseki, packaged without changing its computations.
 }
 \usage{
-anovakun(dataset, design, ..., long = FALSE, type2 = FALSE, nopost = FALSE, tech = FALSE, data.frame = FALSE, copy = FALSE, holm = FALSE, hc = FALSE, s2r = FALSE, s2d = FALSE, fs1 = FALSE, fs2r = FALSE, fs2d = FALSE, welch = FALSE, criteria = FALSE, lb = FALSE, gg = FALSE, hf = FALSE, cm = FALSE, auto = FALSE, mau = FALSE, har = FALSE, iga = FALSE, ciga = FALSE, eta = FALSE, peta = FALSE, geta = NA, eps = FALSE, peps = FALSE, geps = NA, omega = FALSE, omegana = FALSE, pomega = FALSE, gomega = NA, gomegana = NA, prep = FALSE, nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE, cind = FALSE, cin = FALSE, ciml = FALSE, cipaird = FALSE, cipair = FALSE, bgraph = c(NA, NA))
+anovakun(dataset, design, ..., long = FALSE, type2 = FALSE, nopost = FALSE,
+  tech = FALSE, data.frame = FALSE, copy = FALSE, holm = FALSE, hc = FALSE,
+  s2r = FALSE, s2d = FALSE, fs1 = FALSE, fs2r = FALSE, fs2d = FALSE,
+  welch = FALSE, criteria = FALSE, lb = FALSE, gg = FALSE, hf = FALSE,
+  cm = FALSE, auto = FALSE, mau = FALSE, har = FALSE, iga = FALSE, ciga = FALSE,
+  eta = FALSE, peta = FALSE, geta = NA, eps = FALSE, peps = FALSE, geps = NA,
+  omega = FALSE, omegana = FALSE, pomega = FALSE, gomega = NA, gomegana = NA,
+  prep = FALSE, nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE,
+  cind = FALSE, cin = FALSE, ciml = FALSE, cipaird = FALSE, cipair = FALSE,
+  bgraph = c(NA, NA))
 }
 \arguments{
   \item{dataset}{A data frame. Between-subjects factors are arranged in columns at the left (one label column per factor) and within-subjects levels across columns (wide format), unless \code{long = TRUE}.}
@@ -53,7 +62,7 @@ anovakun(dataset, design, ..., long = FALSE, type2 = FALSE, nopost = FALSE, tech
   \item{cilm}{If \code{TRUE}, add Loftus-Masson confidence intervals to the descriptive table.}
   \item{cind}{If \code{TRUE}, add difference-adjusted normalized confidence intervals to the descriptive table.}
   \item{cin}{If \code{TRUE}, add normalized confidence intervals to the descriptive table.}
-  \item{ciml}{If \code{TRUE}, add confidence intervals based on a multilevel model (requires the \pkg{lmerTest} package).}
+  \item{ciml}{If \code{TRUE}, add confidence intervals based on a multilevel model (requires the \pkg{lmerTest} and \pkg{pbkrtest} packages).}
   \item{cipaird}{If \code{TRUE}, output difference-adjusted pairwise confidence intervals.}
   \item{cipair}{If \code{TRUE}, output pairwise confidence intervals.}
   \item{bgraph}{Names of confidence-interval options (inner and outer, up to two) for drawing a bar graph with confidence intervals.}

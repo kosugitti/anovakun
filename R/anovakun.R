@@ -119,8 +119,8 @@
 # 6)epsilon.calc関数は，オプション指定により，被験者内要因を含むデータに対してHarrisの多標本球面性検定を行う（近似カイ二乗による）
 # 7)epsilon.calc関数によるHuynh-Feldtのイプシロンの計算法は，Lecoutre（1991）の修正に基づく
 # 8)epsilon.calc関数によるIGAとCIGAは，非加重平均を想定した計算法に基づく（Algina, 1997; Algina & Oshima, 1995）
-# 9)anova.modeler関数は，IGAとCIGAを用いた際には，multiplier（b_hatとc_hat）によって調整した後のF値をF値の列に表示する
-# 10)anova.modeler関数による加算モデルに基づくオメガ二乗，一般化オメガ二乗の計算式は，被験者と各要因の間のすべての交互作用が存在しないことを仮定するモデルによる（Dodd & Schultz, 1973を参照）
+# 9)anova_modeler関数は，IGAとCIGAを用いた際には，multiplier（b_hatとc_hat）によって調整した後のF値をF値の列に表示する
+# 10)anova_modeler関数による加算モデルに基づくオメガ二乗，一般化オメガ二乗の計算式は，被験者と各要因の間のすべての交互作用が存在しないことを仮定するモデルによる（Dodd & Schultz, 1973を参照）
 # 11)mod.Bon関数は，デフォルトでは，Shafferの方法による多重比較を行う（任意の棄却パターンにおける可能な真の帰無仮説の最大数に基づく方法）
 # 12mod.Bon関数におけるShafferの方法，Holland-Copenhaverの方法の有意水準の計算は，Rasmussen（1993），Donoghue（2004）のアルゴリズムに基づく（オプションによる）
 # 13)mod.Bon関数による多重比較では，p値の低い対から順に基準値よりも値が低いか否かを判定し，いったん有意でない対が見つかったら，
@@ -141,7 +141,7 @@
 # epsilon.calc……Greenhouse-GeisserとHuynh-Feldtのイプシロンを計算する
 # ss.calc……平方和を計算する
 # qlambda.ncf……非心F分布のパラメータの信頼限界を算出する
-# anova.modeler……分散分析表を作る
+# anova_modeler……分散分析表を作る
 # mpginv……ムーア・ペンローズの逆行列を計算する
 # wj.calc……Welch-Jamesアプローチに基づく近似検定を行う
 # mod.Bon……修正Bonferroniの方法による多重比較を行う
@@ -150,7 +150,7 @@
 # boot.esci……ブートストラップ法に基づいて効果量の信頼区間を計算する
 # boot.anova……主分析と単純主効果の検定の効果量を一括して計算する
 # boot.inter……単純主効果の検定の効果量のみを計算する
-# anova.output……出力の種類ごとに設定を割り当てる
+# anova_output……出力の種類ごとに設定を割り当てる
 # table.out……データフレームに書式を与えて出力する
 # mod.Bon.out……修正Bonferroniの方法による多重比較の結果を出力する
 # simeffects.out……単純主効果の検定の結果を出力する
@@ -176,12 +176,12 @@
 # 7)anovakun version 3.2.0（R 2.5.1，R 2.6.0作成；2008/04/01公開）
 # ・Shafferの方法のための別バージョンのアルゴリズムを追加；mod.Bon関数の変更とs2d，fs2dオプションの追加
 # ・オプション名の変更；“shaffer2，fshaffer1，fshaffer2”を“s2r，fs1，fs2r”に変更
-# ・効果量とp_repを計算する機能を追加；anova.modeler関数，anovatab.out関数ほかの変更
+# ・効果量とp_repを計算する機能を追加；anova_modeler関数，anovatab.out関数ほかの変更
 # 8)anovakun version 4.0.0（R 2.5.1，R 2.6.0，R 2.7.0作成；2008/06/02公開）
 # ・Mendozaの多標本球面性検定とHarrisの多標本球面性検定を行う機能を追加（Mendozaをデフォルトに設定）；epsilon.calc関数と関連する部分の変更
 # ・Huynhの改良版一般近似検定とAlgina-Lecoutreの修正改良版一般近似検定を行う機能を追加；epsilon.calc関数及び関連する箇所の変更
-# ・取り扱い可能な要因の数を拡張；anovakun関数，anova.modeler関数，epsilon.calc関数，pro.fraction関数ほかの変更
-# ・複数の効果量をオプション指定したときに，すべての指標が同時に出力されるように変更；anova.modeler関数，pro.fraction関数ほかの変更
+# ・取り扱い可能な要因の数を拡張；anovakun関数，anova_modeler関数，epsilon.calc関数，pro.fraction関数ほかの変更
+# ・複数の効果量をオプション指定したときに，すべての指標が同時に出力されるように変更；anova_modeler関数，pro.fraction関数ほかの変更
 # 9)anovakun version 4.1.0（R 2.9.0，R 2.9.1，R 2.9.2作成；2009/09/01公開）
 # ・欠損値があるケース（数値以外のデータを含む行）を除外して分析するように変更
 # ・混合要因計画で被験者間要因のみを取り出して下位検定を行う際に警告メッセージが表示される点を修正
@@ -189,13 +189,13 @@
 # ・Rのバージョン情報の表示を修正
 # ・出力関数の表示エラーを修正；anovatab.out関数，simeffects.out関数の修正
 # 11)anovakun version 4.2.0（R 2.10.0，R 2.10.1，R 2.11.1作成；2010/07/01公開）
-# ・効果量の指標にイータ二乗，一般化イータ二乗，オメガ二乗，一般化オメガ二乗を追加；anova.modeler関数，anovatab.out関数ほかの変更
+# ・効果量の指標にイータ二乗，一般化イータ二乗，オメガ二乗，一般化オメガ二乗を追加；anova_modeler関数，anovatab.out関数ほかの変更
 # ・データフレームの作成方法を変更；被験者間ラベルに文字列を使用しても指定した水準とデータがずれないようにする
 # ・Lecoutre（1991）に基づいてHyunh-Feldtのイプシロンの計算式を変更；epsilon.calc関数の修正
 # 12)anovakun version 4.3.0（R 2.14.1，R 2.14.2，R 2.15.0作成；2012/07/02公開）
-# ・効果量の指標にイプシロン二乗，偏イプシロン二乗，一般化イプシロン二乗を追加；anova.modeler関数，pro.fraction関数ほかの変更
-# ・オメガ二乗，偏オメガ二乗，一般化オメガ二乗の計算式を修正；anova.modeler関数，pro.fraction関数ほかの修正
-# ・非加算モデルに基づくオメガ二乗，一般化オメガ二乗のオプションを追加；anova.modeler関数，pro.fraction関数ほかの修正
+# ・効果量の指標にイプシロン二乗，偏イプシロン二乗，一般化イプシロン二乗を追加；anova_modeler関数，pro.fraction関数ほかの変更
+# ・オメガ二乗，偏オメガ二乗，一般化オメガ二乗の計算式を修正；anova_modeler関数，pro.fraction関数ほかの修正
+# ・非加算モデルに基づくオメガ二乗，一般化オメガ二乗のオプションを追加；anova_modeler関数，pro.fraction関数ほかの修正
 # ・結果をクリップボードにも出力するオプションcopyを追加（Linuxでは無効）；anovakun関数の変更
 # 13)anovakun version 4.3.1（R 2.15.0，R 2.15.1作成；2012/09/03公開）
 # ・copy機能がMacで働かないエラーを修正；anovakun関数の修正 
@@ -210,9 +210,9 @@
 # ・出力桁数の調整；anovatab.out関数ほかの修正
 # 16)anovakun version 4.4.0（R 3.0.1，R 3.0.2作成；2013/11/01公開）
 # ・データフレームの変形手順を変更し，ロング形式のデータも扱えるように変更；anovakun関数の変更
-# ・出力時の要因名，水準名を任意に指定できるように変更；anovakun関数，anova.modeler関数，post.analyses関数，pro.fraction関数ほかの変更
+# ・出力時の要因名，水準名を任意に指定できるように変更；anovakun関数，anova_modeler関数，post.analyses関数，pro.fraction関数ほかの変更
 # ・出力表示の調整；bstat.out関数，anovatab.out関数，mod.Bon.out関数，simeffects.out関数，post.out関数，each.out関数の変更
-# ・一般化効果量における複数の測定要因を指定する方法を変更（cまたはlist形式を使用する）；anova.modeler関数，pro.fraction関数の変更
+# ・一般化効果量における複数の測定要因を指定する方法を変更（cまたはlist形式を使用する）；anova_modeler関数，pro.fraction関数の変更
 # 17)anovakun version 4.5.0（R 3.0.2作成；2014/02/03公開）
 # ・信頼区間を計算する機能を追加；ci.calc関数の追加，anovakun関数，bstat.out関数の変更
 # ・データフレーム変形部分をuni.long関数として分離；uni.long関数の追加，anovakun関数の変更
@@ -222,18 +222,18 @@
 # ・信頼区間のオプションを追加；ci.calc関数の変更
 # 19)anovakun version 4.6.0（R 3.0.2，R 3.1.0作成；2014/06/02公開）
 # ・球面性検定の有意確率の算出を漸近展開を求める方式に変更；epsilon.calc関数の修正
-# ・Chi-Mullerのイプシロンを計算し，自由度調整を行う機能を追加；epsilon.calc関数，anova.modeler関数ほかの変更
-# ・サンプルサイズの多い反復測定要因を扱った場合の計算を高速化；ss.calc関数，epsilon.calc関数，anova.modeler関数ほかの変更
+# ・Chi-Mullerのイプシロンを計算し，自由度調整を行う機能を追加；epsilon.calc関数，anova_modeler関数ほかの変更
+# ・サンプルサイズの多い反復測定要因を扱った場合の計算を高速化；ss.calc関数，epsilon.calc関数，anova_modeler関数ほかの変更
 # 20)anovakun version 4.6.1（R 3.1.0作成；2014/07/01公開）
-# ・4.6.0における変更に伴ってIGA，CIGA，anovatanを適用できなくなっていた点を修正；anova.modeler関数，anovatan関数の修正
+# ・4.6.0における変更に伴ってIGA，CIGA，anovatanを適用できなくなっていた点を修正；anova_modeler関数，anovatan関数の修正
 # 21)anovakun version 4.6.2（R 3.1.0，R 3.1.1作成；2014/09/01公開）
 # ・マルチレベルモデルに基づく信頼区間を算出するためのパッケージをlmerTestに変更；ci.calc関数の変更
 # ・信頼区間つきの棒グラフを出力する機能の追加；ci.bars関数の追加
 # ・多重比較の検定統計量としてWelch方式の統計量を計算する機能を追加；mpginv関数，wj.calc関数の追加，mod.Bon関数ほかの修正
 # 22)anovakun version 4.7.0（R 3.1.0，R 3.1.1，R 3.1.2作成；2015/01/05公開）
-# ・非心F分布に基づいて効果量の信頼区間を計算する機能を追加；qlamdba.ncf関数の追加；anova.modeler関数ほかの変更
+# ・非心F分布に基づいて効果量の信頼区間を計算する機能を追加；qlamdba.ncf関数の追加；anova_modeler関数ほかの変更
 # ・ブートストラップ法に基づいて効果量の信頼区間を計算する機能を追加；boot.esci関数，boot.anova関数，boot.inter関数の追加；その他関数の変更
-# ・出力関数の変更；anova.output関数，table.out関数の追加；その他の関数の変更と削除
+# ・出力関数の変更；anova_output関数，table.out関数の追加；その他の関数の変更と削除
 # 23)anovakun version 4.7.1（R 3.1.2，R 3.1.3作成；2015/04/01公開）
 # ・３つ以上の被験者内要因を含むデザインでの自由度の割り当てのエラーを修正；episolon.calc関数の修正
 # ・type2オプションが機能しなくなっていた点を修正；ss.calc関数の修正
@@ -269,8 +269,31 @@
 
 
 # 調和平均を計算する関数
-hmean <- function(datvector){
-	return(length(datvector)/sum(1/datvector))
+# OSの種別を返す関数（"windows"，"mac"，"linux"，"unknown"）
+# パッケージ化に伴う変更：.Platformの文字列照合ではソースからビルドしたmacOSのRを判定できないため，Sys.info()を用いる
+os.type <- function(){
+	sysname <- Sys.info()[["sysname"]]
+	if(.Platform$OS.type == "windows"){
+		"windows"
+	}else if(sysname == "Darwin"){
+		"mac"
+	}else if(sysname == "Linux"){
+		"linux"
+	}else{
+		"unknown"
+	}
+}
+
+
+# クリップボードに出力をコピーするための接続を開く関数（copyオプション用）
+# 返り値はsink()の出力先；Windowsでは文字列"clipboard"，Mac・Linuxではpipe接続（Linuxはxclipをインストールしている必要がある）
+# パッケージ化に伴う変更：anovakunとanovatanで重複していた処理をまとめた
+open.clip <- function(){
+	switch(os.type(), 
+		windows = "clipboard", 
+		mac = pipe("pbcopy", "w"), 
+		linux = pipe("xclip -selection clipboard"), 
+		stop("Unknown operating system!!"))
 }
 
 
@@ -279,20 +302,19 @@ hmean <- function(datvector){
 # OSにかかわらず同じ書式で機能するようにしてある；ただし，LinuxはUbuntuでのみテストしており，xclipをインストールしていることを前提とする
 read.clip <- function(...){
 	# OSごとのクリップボードを出力先に指定
-	plat.info <- .Platform
-	if(sum(grep("windows", plat.info)) != 0){# Windowsの場合
-		outboard <- "clipboard"
-	}else if(sum(grep("mac", plat.info)) != 0){# Macの場合
-		outboard <- pipe("pbpaste")
-	}else if(sum(grep("linux", R.version$system)) != 0){# Linuxの場合（xclipをインストールしている必要がある）
-		outboard <- pipe("xclip -o -selection clipboard")
-	}else{# いずれのOSでもない場合
-		stop(message = "Unknown operating system!!")
-	}
+	outboard <- switch(os.type(), 
+		windows = "clipboard", 
+		mac = pipe("pbpaste"), 
+		linux = pipe("xclip -o -selection clipboard"), # xclipをインストールしている必要がある
+		stop("Unknown operating system!!"))
 
 	# read.table関数を実行
 	read.table(file = outboard, ...)
 }
+
+
+# 収録しているANOVA君の版（出力のヘッダに表示する）
+anovakun.version <- "4.8.9"
 
 
 # ANOVA君本体：プロセス全体の制御を行う関数
@@ -313,13 +335,13 @@ anovakun <- function(dataset, design, ..., long = FALSE, type2 = FALSE, nopost =
 
 	# 記述統計量を計算する
 	if(sum(is.na(bgraph)) < 2){# 棒グラフに指定された信頼区間のオプションはオンにする
-		eval(parse(text = paste0(bgraph, " <- TRUE")))
+		for(ci.opt in bgraph[!is.na(bgraph)]) assign(ci.opt, TRUE)
 	}
 	baseresults <- ci.calc(dat = dat, design = design, factnames = factnames, 
 		cilmd = cilmd, cilm = cilm, cind = cind, cin = cin, ciml = ciml, cipaird = cipaird, cipair = cipair)
 
-	# anova.modelerにデータフレームを送り，分散分析の結果を得る
-	mainresults <- anova.modeler(dat = dat, design = design, factnames = factnames, type2 = type2, lb = lb, gg = gg, hf = hf, 
+	# anova_modelerにデータフレームを送り，分散分析の結果を得る
+	mainresults <- anova_modeler(dat = dat, design = design, factnames = factnames, type2 = type2, lb = lb, gg = gg, hf = hf, 
 		cm = cm, auto = auto, mau = mau, har = har, iga = iga, ciga = ciga, eta = eta, peta = peta, geta = geta, 
 		eps = eps, peps = peps, geps = geps, omega = omega, omegana = omegana, pomega = pomega, gomega = gomega, 
 		gomegana = gomegana, prep = prep, nesci = nesci)
@@ -350,7 +372,7 @@ anovakun <- function(dataset, design, ..., long = FALSE, type2 = FALSE, nopost =
 
 	# 基本情報の取得
 	info1 <- paste0("[ ", design, "-Type Design ]")# 要因計画の型
-	info2 <- paste0("This output was generated by anovakun 4.8.9 under ", strsplit(R.version$version.string, " \\(")[[1]][1], ".")# バージョン情報など
+	info2 <- paste0("This output was generated by anovakun ", anovakun.version, " under ", strsplit(R.version$version.string, " \\(")[[1]][1], ".")# バージョン情報など
 	info3 <- paste0("It was executed on ", date(), ".")# 実行日時
 	exe.info <- c(info1, info2, info3)
 
@@ -367,16 +389,13 @@ anovakun <- function(dataset, design, ..., long = FALSE, type2 = FALSE, nopost =
 
 	# 結果を表示する
 	if(copy){# 指定があった場合，出力をクリップボードにコピー
-		plat.info <- .Platform
-		if(sum(grep("windows", plat.info)) != 0){# Windowsの場合
-			sink("clipboard", split = TRUE)
-		}else if(sum(grep("mac", plat.info)) != 0){# Macの場合
-			tclip <- pipe("pbcopy", "w")
-			sink(tclip, split = TRUE)
-		}else if(sum(grep("linux", R.version$system)) != 0){# Linxの場合（xclipをインストールしている必要がある）
-			tclip <- pipe("xclip -selection clipboard")
-			sink(tclip, split = TRUE)
-		}
+		# パッケージ化に伴う変更：関数を抜けるときに必ずsinkを閉じる（tech = TRUEなどで早く抜ける場合も含む）
+		tclip <- open.clip()
+		sink(tclip, split = TRUE)
+		on.exit({
+			sink()
+			if(inherits(tclip, "connection")) close(tclip)# Mac，Linuxの場合
+		}, add = TRUE)
 	}
 	if(tech){# データフレーム形式での出力の場合
 		postnames <- names(postresults)
@@ -408,21 +427,14 @@ anovakun <- function(dataset, design, ..., long = FALSE, type2 = FALSE, nopost =
 	}else{# 表形式での出力の場合
 		if(data.frame == TRUE){
 			names(dat) <- c("s", factnames, "y")
-			anova.output(maxfact = maxfact, exe.info = exe.info, baseresults = baseresults, 
+			anova_output(maxfact = maxfact, exe.info = exe.info, baseresults = baseresults, 
 				mainresults = mainresults, postresults = postresults)
 			return(list("DATA.FRAME" = dat))# 計算に使用したデータフレームを付加
 		}else{
-			anova.output(maxfact = maxfact, exe.info = exe.info, baseresults = baseresults, 
+			anova_output(maxfact = maxfact, exe.info = exe.info, baseresults = baseresults, 
 				mainresults = mainresults, postresults = postresults)
 		}
 	}
-	if(copy){
-		sink()
-		if(plat.info$OS.type != "windows"){# Mac，Linuxの場合
-			close(tclip)
-		}
-	}
-
 	# 指定があった場合には，棒グラフを出力
 	if(sum(is.na(bgraph)) < 2 & maxfact <= 3){
 		ci.bars(dat, design, factnames = factnames, inn.tier = bgraph[1], out.tier = bgraph[2])
@@ -442,7 +454,7 @@ uni.long <- function(dataset, design, ..., long = FALSE){
 	if(long){# ロング形式のデータフレームのヘッダをANOVA君に適合したものに変更
 		# 指定されたデザインとデータフレームの列数が合致しない場合にはメッセージを表示して終了
 		if((maxfact + 2) != ncol(dataset)){
-			stop(message = "\"anovakun\" has stopped working...\nThe entered design does not match the data.")
+			stop("\"anovakun\" has stopped working...\nThe entered design does not match the data.")
 		}
 
 		# ヘッダの差し替え
@@ -485,12 +497,12 @@ uni.long <- function(dataset, design, ..., long = FALSE){
 
 		# 水準数１が指定されていたらメッセージを表示して終了；存在しないオプション名が指定されると水準数１と解釈される
 		if(min(flev) == 1){
-			stop(message = "\"anovakun\" has stopped working...\nSome factor specifies only one level.\nOr maybe non-existent option-names are requested.")
+			stop("\"anovakun\" has stopped working...\nSome factor specifies only one level.\nOr maybe non-existent option-names are requested.")
 		}
 
 		# 指定されたデザインとデータフレームの列数が合致しない場合にはメッセージを表示して終了
 		if((betlen + ifelse(is.na(prod(flev[(betlen+1):length(flev)])), 1, prod(flev[(betlen+1):length(flev)]))) != ncol(dataset)){
-			stop(message = "\"anovakun\" has stopped working...\nThe entered design does not match the data.")
+			stop("\"anovakun\" has stopped working...\nThe entered design does not match the data.")
 		}
 
 		# 欠損値の除去
@@ -617,11 +629,11 @@ ci.calc <- function(dat, design, factnames = NA, conf.level = 0.95, cilmd = FALS
 
 	# マルチレベルモデルに基づく信頼区間の計算
 	if(ciml){
-		loadstate <- search()# この時点でのパッケージ呼び出し状態を記録
-		pkchk <- library(lmerTest, logical.return = TRUE)# パッケージの呼び出し
-		if(pkchk == FALSE) stop("Please install lmerTest package to use ciml option!!")# パッケージがなければストップ
-		def.contr <- suppressWarnings(lmerControl()$checkControl)# lmerControlのデフォルト設定を保存
+		# パッケージ化に伴う変更：library()で読み込まずに名前空間を介して呼ぶ；optionsは関数を抜けるときに戻す
+		if(!requireNamespace("lmerTest", quietly = TRUE)) stop("Please install lmerTest package to use ciml option!!")# パッケージがなければストップ
+		def.contr <- suppressWarnings(lme4::lmerControl()$checkControl)# lmerControlのデフォルト設定を保存
 		options(lmerControl = list(check.nobs.vs.nlev = "ignore", check.nlev.gtr.1 = "ignore", check.nobs.vs.nRE = "ignore"))# 各種警告メッセージをオフ
+		on.exit(options(lmerControl = def.contr), add = TRUE)
 
 		# モデル式の作成
 		modeleq <- paste0("y ~ ", gsub(", ", " * ", toString(LETTERS[maxfact:1])))# 固定効果の指定
@@ -635,13 +647,8 @@ ci.calc <- function(dat, design, factnames = NA, conf.level = 0.95, cilmd = FALS
 		}
 
 		# 推定と信頼区間の算出
-		ml.model <- lmer(formula(modeleq), na.action = na.omit, REML = TRUE, data = dat)
-		lscis <- ls_means(ml.model, which = paste0(LETTERS[maxfact:1], collapse = ":"), ddf = "Kenward-Roger")
-
-		options(lmerControl = def.contr)# lmerControlの設定をもどす
-		newstate <- search()# 現時点でのパッケージ呼び出し状態
-		detlist <- newstate[!is.element(newstate, loadstate)]# 新たに呼び出したパッケージだけ選択
-		detdummy <- sapply(detlist, function(x) detach(x, character.only = TRUE))# パッケージの解除
+		ml.model <- lmerTest::lmer(formula(modeleq), na.action = na.omit, REML = TRUE, data = dat)
+		lscis <- lmerTest::ls_means(ml.model, which = paste0(LETTERS[maxfact:1], collapse = ":"), ddf = "Kenward-Roger")
 
 		# 指定のあった指標を表に追加
 		bstat.info1 <- append(bstat.info1, "== Blouin-Riopelle's Multilevel-Based Confidence Intervals ==")
@@ -710,22 +717,20 @@ ci.bars <- function(dat, design, factnames = NA, conf.level = 0.95, inn.tier = "
 	# factnamesが省略されているときは名前をつける
 	if(anyNA(factnames)) factnames <- LETTERS[1:maxfact]
 
-	# 信頼区間の計算
-	eval(parse(text = paste0(c("cilmd", "cilm", "cind", "cin", "ciml"), "v <- FALSE")))
-	eval(parse(text = paste0(inn.tier, "v <- TRUE")))
-	eval(parse(text = paste0(out.tier, "v <- TRUE")))
+	# 信頼区間の計算（指定された種類だけ計算する）
+	tiers <- c(inn.tier, out.tier)
+	cilmdv <- "cilmd" %in% tiers
+	cilmv <- "cilm" %in% tiers
+	cindv <- "cind" %in% tiers
+	cinv <- "cin" %in% tiers
+	cimlv <- "ciml" %in% tiers
 	baseresults <- ci.calc(dat, design, factnames = factnames, conf.level = conf.level, cilmd = cilmdv, cilm = cilmv, cind = cindv, cin = cinv, ciml = cimlv)
 	bstatist <- baseresults$bstatist
 
-	# グラフィックデバイスを開く
-	if(sum(grep("mac", .Platform)) != 0){# Macの場合
-		quartz(title = paste0("Bar Graph for ", design, "-Type Design"))
-	}else{# その他のOSの場合
-		x11(title = paste0("Bar Graph for ", design, "-Type Design"))
-	}
-
 	# グラフパラメータの設定
+	# パッケージ化に伴う変更：新しいウィンドウ（quartz，x11）を開かず現在のデバイスに描く；パラメータは関数を抜けるときに戻す
 	preset <- par(no.readonly = TRUE)
+	on.exit(par(preset), add = TRUE)
 	par(lwd = 1.5, cex = 1.8, plt = c(0.2, 0.7, 0.2, 0.87), mgp = c(2.5, 0.5, 0), xpd = TRUE)
 	if(is.na(out.tier) == TRUE){# 外側エラーバーがない場合
 		mMax <- max(bstatist[, paste0(toupper(inn.tier), "-U")])# 最大値
@@ -783,7 +788,6 @@ ci.bars <- function(dat, design, factnames = NA, conf.level = 0.95, inn.tier = "
 	arrows(cumsum(betbars) + 1:prod(flev) - 0.5, bstatist[, paste0(toupper(inn.tier), "-L")], # 内側エラーバー
 		cumsum(betbars) + 1:prod(flev) - 0.5, bstatist[, paste0(toupper(inn.tier), "-U")], 
 		angle = 90, length = 0.06, code = 3, lwd = 2)
-	par(preset)# グラフパラメータの設定を元に戻す
 }
 
 
@@ -1142,6 +1146,7 @@ ss.calc <- function(dat, design, ss.errs = NA, type2 = FALSE, dmat = NULL, flev 
 
 	def.contr <- options("contrasts")[[1]]# contrastsのデフォルト設定を保存
 	options(contrasts = c("contr.sum", "contr.poly"))# 設定を変更
+	on.exit(options(contrasts = def.contr), add = TRUE)# パッケージ化に伴う変更：関数を抜けるときに必ず戻す
 	if(is.null(dmat)) dmat <- model.matrix(as.formula(eff.modeleq), dat)# デザイン行列を作る
 
 	# 計画行列とデータを統合する
@@ -1216,7 +1221,6 @@ ss.calc <- function(dat, design, ss.errs = NA, type2 = FALSE, dmat = NULL, flev 
 		ss.results <- ss.results[ss.order, ]
 	}
 
-	options(contrasts = def.contr)# contrastsの設定をもどす
 	return(list("ss.results" = ss.results, "dmat" = dmat))
 }
 
@@ -1349,7 +1353,7 @@ qlambda.ncf <- function (Fratio, ndf, ddf, conf.level = 0.95, tol = 1e-09, JmpPr
 
 
 # 分散分析表を作る関数
-anova.modeler <- function(dat, design, factnames = NA, type2 = FALSE, dmat = NULL, flev = NULL, cellN = NULL, full.elem = NA, 
+anova_modeler <- function(dat, design, factnames = NA, type2 = FALSE, dmat = NULL, flev = NULL, cellN = NULL, full.elem = NA, 
 	epsi.effect = NA, lb = FALSE, gg = FALSE, hf = FALSE, cm = FALSE, auto = FALSE, autov = NULL, mau = FALSE, har = FALSE, 
 	iga = FALSE, ciga = FALSE, eta = FALSE, peta = FALSE, geta = NA, eps = FALSE, peps = FALSE, geps = NA, omega = FALSE, 
 	omegana = FALSE, pomega = FALSE, gomega = NA, gomegana = NA, prep = FALSE, nesci = FALSE, inter = NA, bet.mse = NULL, 
@@ -2041,7 +2045,7 @@ mod.Bon <- function(dat, design, taref, bet.mse = NA, factlabel = NA, factnames 
 			for(i in 1:length(subdat)){
 				subdat[[i]][, taref] <- subdat[[i]][, taref][, drop = TRUE]
 			}
-			bon.anova <- lapply(subdat, function(x) anova.modeler(dat = x, design = design, factnames = factnames, type2 = type2, 
+			bon.anova <- lapply(subdat, function(x) anova_modeler(dat = x, design = design, factnames = factnames, type2 = type2, 
 				inter = taref)$intertab[2, ])
 			bon.df <- sapply(bon.anova, function(x) x$df.col)# 自由度
 			bon.Ve <- sapply(bon.anova, function(x) x$ms.col)
@@ -2325,7 +2329,7 @@ pro.fraction <- function(dat, design, factnames = NA, postplan, bet.with, mainre
 			}
 
 			# 検定の実行
-			sim.effects <- lapply(1:simtimes, function(x) anova.modeler(dat = subdat[[x]], design = subdesign[x], 
+			sim.effects <- lapply(1:simtimes, function(x) anova_modeler(dat = subdat[[x]], design = subdesign[x], 
 				factnames = factnames[-nmline[x]], type2 = type2, eta = eta, peta = peta, geta = geta, eps = eps, 
 				peps = peps, geps = geps, omega = omega, omegana = omegana, pomega = pomega, gomega = gomega, gomegana = gomegana, 
 				prep = prep, nesci = nesci, inter = interlab[x], bet.mse = bet.mse, gss.qT = gss.qT, 
@@ -2349,7 +2353,7 @@ pro.fraction <- function(dat, design, factnames = NA, postplan, bet.with, mainre
 			sim.bet.mse <- replicate(simeflen, bet.mse, simplify = FALSE)
 		}else{# 反復測定要因を含む場合
 			# 検定の実行
-			sim.effects <- lapply(1:simtimes, function(x) anova.modeler(dat = subdat[[x]], design = subdesign[x], 
+			sim.effects <- lapply(1:simtimes, function(x) anova_modeler(dat = subdat[[x]], design = subdesign[x], 
 				factnames = factnames[-nmline[x]], type2 = type2, lb = lb, gg = gg, hf = hf, cm = cm, auto = auto, 
 				mau = mau, har = har, iga = iga, ciga = ciga, eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, 
 				geps = geps, omega = omega, omegana = omegana, pomega = pomega, gomega = gomega, gomegana = gomegana, 
@@ -2476,7 +2480,7 @@ boot.esci <- function(dat, design, factnames = NA, type2 = FALSE, nopost = FALSE
 
 	# 標本による結果の取得
 	if(is.null(mainresults)){
-		mainresults <- anova.modeler(dat = dat, design = design, factnames = factnames, type2 = type2, 
+		mainresults <- anova_modeler(dat = dat, design = design, factnames = factnames, type2 = type2, 
 			lb = lb, gg = gg, hf = hf, cm = cm, auto = auto, mau = mau, har = har, iga = iga, ciga = ciga, 
 			eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, omega = omega, omegana = omegana, 
 			pomega = pomega, gomega = gomega, gomegana = gomegana, prep = prep)
@@ -2621,8 +2625,8 @@ boot.anova <- function(dat, design, factnames = NA, type2 = FALSE, dmat = NULL, 
 	withlen <- maxfact - spos + 1# 被験者内要因の数
 	if(is.null(flev)) flev <- sapply(2:nchar(design), function(x) length(unique(dat[, x])))# 各要因の水準数
 
-	esmain <- anova.modeler(dat = dat, design = design, factnames = factnames, type2 = type2, dmat = dmat, flev = flev, cellN = cellN, 
-		full.elem = full.elem, epsi.effect = epsi.effect, lb = lb, gg = gg, hf = hf, cm = cm, auto = auto, autov = autov[[1]], 
+	esmain <- anova_modeler(dat = dat, design = design, factnames = factnames, type2 = type2, dmat = dmat, flev = flev, cellN = cellN, 
+		full.elem = full.elem, epsi.effect = epsi.effect, lb = lb, gg = gg, hf = hf, cm = cm, autov = autov[[1]], 
 		mau = mau, har = har, iga = iga, ciga = ciga, eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, 
 		omega = omega, omegana = omegana, pomega = pomega, gomega = gomega, gomegana = gomegana, prep = prep, esboot = TRUE)
 
@@ -2686,7 +2690,7 @@ boot.inter <- function(dat, design, factnames = NA, type2 = FALSE, dmat = NULL, 
 		}
 
 		# 検定の実行
-		sim.effects <- lapply(1:simtimes, function(x) anova.modeler(dat = subdat[[x]], design = subdesign[x], 
+		sim.effects <- lapply(1:simtimes, function(x) anova_modeler(dat = subdat[[x]], design = subdesign[x], 
 			factnames = factnames[-nmline[x]], type2 = type2, dmat = sim.dmat[[x]], flev = sim.flev[[x]], cellN = sim.cellN[x], 
 			eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, omega = omega, omegana = omegana, 
 			pomega = pomega, gomega = gomega, gomegana = gomegana, prep = prep, inter = interlab[x], bet.mse = bet.mse, 
@@ -2694,7 +2698,7 @@ boot.inter <- function(dat, design, factnames = NA, type2 = FALSE, dmat = NULL, 
 		simes <- as.vector(do.call(rbind, sim.effects))
 	}else{# 反復測定要因を含む場合
 		# 検定の実行
-		sim.effects <- lapply(1:simtimes, function(x) anova.modeler(dat = subdat[[x]], design = subdesign[x], 
+		sim.effects <- lapply(1:simtimes, function(x) anova_modeler(dat = subdat[[x]], design = subdesign[x], 
 			factnames = factnames[-nmline[x]], type2 = type2, dmat = sim.dmat[[x]], flev = sim.flev[[x]], cellN = sim.cellN[x], 
 			lb = lb, gg = gg, hf = hf, cm = cm, autov = autov[x], mau = mau, har = har, iga = iga, ciga = ciga, 
 			eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, omega = omega, omegana = omegana, 
@@ -2707,7 +2711,7 @@ boot.inter <- function(dat, design, factnames = NA, type2 = FALSE, dmat = NULL, 
 
 
 # 出力の種類ごとに設定を割り当てる関数
-anova.output <- function(maxfact, exe.info, baseresults, mainresults, postresults = NA, sep = " "){
+anova_output <- function(maxfact, exe.info, baseresults, mainresults, postresults = NA, sep = " "){
 	# 実行情報の出力
 	cat("\n")
 	cat(sprintf(exe.info[1]), sep = "\n")
@@ -3003,7 +3007,7 @@ anovatan <- function(dataset, design, ..., tfact = NULL, long = FALSE, type2 = F
 	cipaird = FALSE, cipair = FALSE, bgraph = c(NA, NA)){
 	# 分割する要因が指定されていない場合は終了
 	if(is.null(tfact)){
-		stop(message = "\"anovatan\" has stopped working...\nPlease specify some factors to split.")
+		stop("\"anovatan\" has stopped working...\nPlease specify some factors to split.")
 	}
 
 	# 要因計画情報の取得
@@ -3028,17 +3032,14 @@ anovatan <- function(dataset, design, ..., tfact = NULL, long = FALSE, type2 = F
 	subdesign <- paste0(paste0(LETTERS[(1 * (bet.withN[1] != 0)):bet.withN[1]], collapse = ""), "s", paste0(LETTERS[1 * (bet.withN[2] != 0) * (bet.withN[1]+1:bet.withN[2])], collapse = ""))# 下位検定の計画の型
 
 	# copyオプションの指定があった場合，出力をクリップボードにコピー
-	if(copy){
-		plat.info <- .Platform
-		if(sum(grep("windows", plat.info)) != 0){# Windowsの場合
-			sink("clipboard", split = TRUE)
-		}else if(sum(grep("mac", plat.info)) != 0){# Macの場合
-			tclip <- pipe("pbcopy", "w")
-			sink(tclip, split = TRUE)
-		}else if(sum(grep("linux", R.version$system)) != 0){# Linuxの場合（xclipをインストールしている必要がある）
-			tclip <- pipe("xclip -selection clipboard")
-			sink(tclip, split = TRUE)
-		}
+	if(copy){# 指定があった場合，出力をクリップボードにコピー
+		# パッケージ化に伴う変更：関数を抜けるときに必ずsinkを閉じる（tech = TRUEなどで早く抜ける場合も含む）
+		tclip <- open.clip()
+		sink(tclip, split = TRUE)
+		on.exit({
+			sink()
+			if(inherits(tclip, "connection")) close(tclip)# Mac，Linuxの場合
+		}, add = TRUE)
 	}
 
 	# 除外したケースの報告
@@ -3056,14 +3057,6 @@ anovatan <- function(dataset, design, ..., tfact = NULL, long = FALSE, type2 = F
 			har = har, iga = iga, ciga = ciga, eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, 
 			omega = omega, omegana = omegana, pomega = pomega, gomega = gomega, gomegana = gomegana, prep = prep, nesci = nesci, besci = besci, 
 			cilmd = cilmd, cilm = cilm, cind = cind, cin = cin, ciml = ciml, cipaird = cipaird, cipair = cipair, bgraph = bgraph)
-	}
-
-	# copyを実行していた場合，クリップボードを閉じる
-	if(copy){
-		sink()
-		if(plat.info$OS.type != "windows"){# Mac，Linuxの場合
-			close(tclip)
-		}
 	}
 
 	# 指定があった場合は，分割後のデータフレームを出力
