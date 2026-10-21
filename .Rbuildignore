@@ -9,3 +9,4 @@
 ^WORKLOG\.md$
 ^memo_.*\.md$
 ^tests/testthat/_problems$
+^cran-comments\.md$

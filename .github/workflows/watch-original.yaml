@@ -1,0 +1,71 @@
+# Once a week, look at the original ANOVA-kun page and open an issue when a
+# newer anovakun_NNN.txt than the one in inst/original/ is published (or the
+# file of the same name has changed). The new file is attached to the run as
+# an artifact; nothing is committed automatically.
+on:
+  schedule:
+    - cron: '0 0 * * 1'   # Mondays 00:00 UTC (09:00 JST)
+  workflow_dispatch:
+
+name: watch-original
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare with the original site
+        id: check
+        run: |
+          mkdir -p "$RUNNER_TEMP/original"
+          .github/scripts/check_original.sh "$RUNNER_TEMP/original" | tee -a "$GITHUB_OUTPUT"
+
+      - name: Upload the latest original source
+        if: steps.check.outputs.status != 'up_to_date'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.check.outputs.remote_name }}
+          path: ${{ steps.check.outputs.remote_file }}
+
+      - name: Open an issue
+        if: steps.check.outputs.status != 'up_to_date'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STATUS: ${{ steps.check.outputs.status }}
+          LOCAL_NAME: ${{ steps.check.outputs.local_name }}
+          LOCAL_SHA: ${{ steps.check.outputs.local_sha }}
+          REMOTE_NAME: ${{ steps.check.outputs.remote_name }}
+          REMOTE_SHA: ${{ steps.check.outputs.remote_sha }}
+          REMOTE_URL: ${{ steps.check.outputs.remote_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ "$STATUS" = "new_version" ]; then
+            title="本家の新版 $REMOTE_NAME が公開されました"
+          else
+            title="本家の $REMOTE_NAME の中身が変わっています"
+          fi
+          # Do not open the same issue twice.
+          if gh issue list --state open --search "\"$title\" in:title" --json title -q '.[].title' | grep -Fxq "$title"; then
+            echo "Issue already open: $title"
+            exit 0
+          fi
+          body="$(cat <<EOF
+          本家ページ https://riseki.cloudfree.jp/?ANOVA%E5%90%9B を確認したところ，パッケージに収めている原本と違いがありました。
+
+          | | ファイル | SHA-256 |
+          |---|---|---|
+          | パッケージ(inst/original/) | \`$LOCAL_NAME\` | \`$LOCAL_SHA\` |
+          | 本家 | \`$REMOTE_NAME\` | \`$REMOTE_SHA\` |
+
+          - 本家の直リンク: $REMOTE_URL
+          - 取得したファイルはこの実行の artifact にあります: $RUN_URL
+
+          取り込みの手順は CLAUDE.md の「本家の更新の取り込み手順」のとおり(新旧の差分 → 変わった関数だけ反映 → 原本の差し替え → 照合テスト → NEWS)。
+          EOF
+          )"
+          gh issue create --title "$title" --body "$body" --label "upstream"
