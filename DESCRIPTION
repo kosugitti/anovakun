@@ -7,11 +7,15 @@ Authors@R: c(
     person("Koji", "Kosugi", email = "kosugitti@gmail.com", role = "cre",
            comment = c(ORCID = "0000-0001-5816-0099")))
 Description: Performs analysis of variance for between-subjects,
-    within-subjects, and mixed factorial designs, including post hoc
-    analyses, sphericity tests and corrections, effect sizes, and their
-    confidence intervals. This package wraps the 'ANOVA-kun' function by
-    Ryuta Iseki without changing its computations; version 1.0.0 contains
-    'ANOVA-kun' 4.8.9.
+    within-subjects and mixed factorial designs with up to 26 factors,
+    together with multiple comparisons (Holm, Shaffer and related modified
+    Bonferroni procedures), simple effects analyses, sphericity tests and
+    epsilon corrections, effect sizes with confidence intervals, and
+    confidence intervals of cell means. It
+    distributes the 'ANOVA-kun' functions written by Ryuta Iseki
+    <https://riseki.cloudfree.jp/?ANOVA%E5%90%9B>, where the methods and
+    their references are documented, without changing their computations;
+    the results are returned as objects that print the original tables.
 License: MIT + file LICENSE
 URL: https://github.com/kosugitti/anovakun, https://kosugitti.github.io/anovakun/
 BugReports: https://github.com/kosugitti/anovakun/issues

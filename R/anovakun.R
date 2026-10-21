@@ -2688,7 +2688,7 @@ boot.inter <- function(dat, design, factnames = NA, type2 = FALSE, dmat = NULL, 
 	subdat <- mapply(function(x, y) dat[x, -y], subline, nmline + 1, SIMPLIFY = FALSE)
 	interlab <- rep(LETTERS[targetnm - 0:1], flev[rtargetnm])
 	simtimes <- length(nmline)# 単純主効果の検定の実行回数
-	if(!is.null(autov)) c(rep(T, simtimes - length(autov)), autov)
+	if(!is.null(autov)) c(rep(TRUE, simtimes - length(autov)), autov)
 
 	# 分割したデータフレームのヘッダを付け直す
 	for(i in 1:simtimes){

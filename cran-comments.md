@@ -6,7 +6,7 @@
   check time 222 s
 * mac-builder R release: (fill in from the e-mail)
 * GitHub Actions: macOS, Windows and Ubuntu on R release, Ubuntu on R-devel
-  and R oldrel-1: (fill in)
+  and R oldrel-1: (fill in for the submitted commit)
 
 ## R CMD check results
 
@@ -23,6 +23,15 @@ packages the code. The computations are unchanged from the original source
 the original source across designs and options.
 
 ## Notes for the reviewer
+
+* Methods and references: the package implements many procedures (modified
+  Bonferroni multiple comparisons, multisample sphericity tests, epsilon
+  corrections, generalized effect sizes, confidence intervals for
+  within-subjects designs, ...). Their references are listed on the pages of
+  the original 'ANOVA-kun' site, which is given in the Description field.
+* Output: `anovakun()` and `anovatan()` return objects; the tables are written
+  only by their `print()` methods. The progress of the bootstrap is reported
+  with `message()`.
 
 * `read.clip()` and the `copy = TRUE` option read from or write to the system
   clipboard. They do so only when the user asks for it; the examples that use
