@@ -1,0 +1,19 @@
+Package: anovakun
+Type: Package
+Title: Analysis of Variance for Factorial Designs ('ANOVA-kun')
+Version: 4.8.9
+Authors@R: c(
+    person("Ryuta", "Iseki", role = c("aut", "cph")),
+    person("Koji", "Kosugi", email = "kosugitti@gmail.com", role = "cre",
+           comment = c(ORCID = "0000-0001-5816-0099")))
+Description: Performs analysis of variance for between-subjects,
+    within-subjects, and mixed factorial designs, including post hoc
+    analyses, sphericity tests and corrections, effect sizes, and their
+    confidence intervals. This package wraps the 'ANOVA-kun' function by
+    Ryuta Iseki without changing its computations.
+License: MIT + file LICENSE
+URL: https://github.com/kosugitti/anovakun, https://kosugitti.github.io/anovakun/
+BugReports: https://github.com/kosugitti/anovakun/issues
+Encoding: UTF-8
+Imports: graphics, grDevices, stats, utils
+Suggests: lmerTest

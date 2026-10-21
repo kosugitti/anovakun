@@ -1,0 +1,17 @@
+url: https://kosugitti.github.io/anovakun/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference, news]
+    right: [search, original, github]
+  components:
+    original:
+      text: "本家ANOVA君"
+      href: https://riseki.cloudfree.jp/?ANOVA%E5%90%9B
+    github:
+      icon: fa-github
+      href: https://github.com/kosugitti/anovakun
+      aria-label: GitHub

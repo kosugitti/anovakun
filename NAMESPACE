@@ -1,0 +1,8 @@
+export(anovakun)
+export(anovatan)
+export(ci.bars)
+export(read.clip)
+import(graphics)
+import(stats)
+import(utils)
+importFrom(grDevices, gray, quartz, x11)
