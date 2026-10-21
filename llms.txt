@@ -33,6 +33,15 @@ anovakun(dat, "AsBC", 2, 2, 2)
 [`?anovakun`](https://kosugitti.github.io/anovakun/reference/anovakun.md)
 か，本家のページを参照してください。
 
+本家との違いは，結果をオブジェクトとして返すことです。そのまま呼べば本家と同じ表が表示され，代入すれば表示せずに結果を取っておけます。
+
+``` r
+
+res <- anovakun(dat, "AsBC", 2, 2, 2, peta = TRUE)  # 何も表示されない
+res                                                # 本家と同じ表
+res[["ANOVA TABLE"]]                               # 分散分析表の部分(tech = TRUE と同じリスト)
+```
+
 ## 状態
 
 パッケージ版 1.0.0 は本家 4.8.9 を収めています。本家の原本は
@@ -56,8 +65,10 @@ CRAN への登録を準備中です。
 ## All functions
 
 - [`anovakun()`](https://kosugitti.github.io/anovakun/reference/anovakun.md)
+  [`print(`*`<anovakun>`*`)`](https://kosugitti.github.io/anovakun/reference/anovakun.md)
   : Analysis of variance for factorial designs (ANOVA-kun)
 - [`anovatan()`](https://kosugitti.github.io/anovakun/reference/anovatan.md)
+  [`print(`*`<anovatan>`*`)`](https://kosugitti.github.io/anovakun/reference/anovatan.md)
   : Run anovakun separately for each level of a factor
 - [`ci.bars()`](https://kosugitti.github.io/anovakun/reference/ci.bars.md)
   : Bar graph with confidence intervals

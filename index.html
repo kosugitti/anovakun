@@ -73,6 +73,11 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/anovakun.html">anovakun</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"AsBC"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p>オプションの一覧は <code><a href="reference/anovakun.html">?anovakun</a></code> か，本家のページを参照してください。</p>
+<p>本家との違いは，結果をオブジェクトとして返すことです。そのまま呼べば本家と同じ表が表示され，代入すれば表示せずに結果を取っておけます。</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/anovakun.html">anovakun</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"AsBC"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, peta <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># 何も表示されない</span></span>
+<span><span class="va">res</span>                                                <span class="co"># 本家と同じ表</span></span>
+<span><span class="va">res</span><span class="op">[[</span><span class="st">"ANOVA TABLE"</span><span class="op">]</span><span class="op">]</span>                               <span class="co"># 分散分析表の部分(tech = TRUE と同じリスト)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="状態">状態<a class="anchor" aria-label="anchor" href="#%E7%8A%B6%E6%85%8B"></a>

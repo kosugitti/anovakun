@@ -38,13 +38,25 @@
 <ul><li>First release as an R package. It contains ‘ANOVA-kun’ 4.8.9 by Ryuta Iseki (<a href="https://riseki.cloudfree.jp/?ANOVA%E5%90%9B" class="external-link uri">https://riseki.cloudfree.jp/?ANOVA%E5%90%9B</a>) without changes to its computations.</li>
 <li>Tests compare <code><a href="../reference/anovakun.html">anovakun()</a></code> and <code><a href="../reference/anovatan.html">anovatan()</a></code> with the original source (<code>inst/original/</code>) across designs and options.</li>
 </ul><div class="section level3">
+<h3 id="results-as-objects-1-0-0">Results as objects<a class="anchor" aria-label="anchor" href="#results-as-objects-1-0-0"></a></h3>
+<ul><li>
+<code><a href="../reference/anovakun.html">anovakun()</a></code> returns an object of class <code>"anovakun"</code> instead of writing the tables to the console. The tables are written by its <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method in the same layout as the original, so calling <code><a href="../reference/anovakun.html">anovakun()</a></code> at the top level shows the same output as before, while <code>res &lt;- anovakun(...)</code> shows nothing and keeps the results. The object holds the same list as <code>tech = TRUE</code>. <code>tech = TRUE</code> still returns the plain list.</li>
+<li>
+<code><a href="../reference/anovatan.html">anovatan()</a></code> returns an object of class <code>"anovatan"</code> holding the <code>"anovakun"</code> results for each level (and the split data with <code>data.frame = TRUE</code>). With <code>tech = TRUE</code> it returns the plain lists of each level; the original printed only the headings and returned <code>NULL</code>.</li>
+<li>With <code>data.frame = TRUE</code>, the data frame is an element (<code>DATA.FRAME</code>) of the returned object; the original returned it alone.</li>
+<li>With <code>bgraph</code>, the bar graph is drawn when <code><a href="../reference/anovakun.html">anovakun()</a></code> is called, i.e. before the tables are printed.</li>
+<li>
+<code>copy = TRUE</code> writes the printed tables to the clipboard instead of redirecting the console with <code><a href="https://rdrr.io/r/base/sink.html" class="external-link">sink()</a></code>.</li>
+<li>The progress of the bootstrap (<code>besci = TRUE</code>) is reported with <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code>; the progress bar is shown only in interactive sessions.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="changes-from-the-original-source-no-effect-on-the-results-1-0-0">Changes from the original source (no effect on the results)<a class="anchor" aria-label="anchor" href="#changes-from-the-original-source-no-effect-on-the-results-1-0-0"></a></h3>
 <ul><li>
 <code>ciml = TRUE</code> calls ‘lmerTest’ through its namespace instead of <code><a href="https://github.com/runehaubo/lmerTestR" class="external-link">library(lmerTest)</a></code>; ‘lmerTest’ is a suggested package.</li>
 <li>
 <code><a href="../reference/ci.bars.html">ci.bars()</a></code> draws on the current graphics device instead of opening a new <code><a href="https://rdrr.io/r/grDevices/quartz.html" class="external-link">quartz()</a></code> or <code><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">x11()</a></code> window.</li>
 <li>
-<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>, <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> and <code><a href="https://rdrr.io/r/base/sink.html" class="external-link">sink()</a></code> (for <code>copy = TRUE</code>) are restored with <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code>, so they are restored even if the analysis stops with an error or returns early (e.g. <code>copy = TRUE</code> with <code>tech = TRUE</code>).</li>
+<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> and <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> are restored with <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code>, so they are restored even if the analysis stops with an error.</li>
 <li>The operating system (for <code>copy = TRUE</code>, <code><a href="../reference/read.clip.html">read.clip()</a></code>) is detected with <code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>; the original test on <code>.Platform</code> did not recognise macOS when R was built from source.</li>
 <li>Internal functions <code>anova.modeler()</code> and <code>anova.output()</code> were renamed to <code>anova_modeler()</code> and <code>anova_output()</code> so that they are not mistaken for S3 methods of <code><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova()</a></code>. The unused internal function <code>hmean()</code> was removed.</li>
 </ul></div>
