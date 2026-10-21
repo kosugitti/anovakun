@@ -285,15 +285,18 @@ os.type <- function(){
 }
 
 
-# クリップボードに出力をコピーするための接続を開く関数（copyオプション用）
-# 返り値はsink()の出力先；Windowsでは文字列"clipboard"，Mac・Linuxではpipe接続（Linuxはxclipをインストールしている必要がある）
-# パッケージ化に伴う変更：anovakunとanovatanで重複していた処理をまとめた
-open.clip <- function(){
-	switch(os.type(), 
-		windows = "clipboard", 
+# 文字列をクリップボードに書き込む関数（copyオプション用）
+# Linuxはxclipをインストールしている必要がある
+# パッケージ化に伴う変更：sink()で出力を横取りする代わりに，表の文字列を書き込む
+write.clip <- function(lines){
+	clip <- switch(os.type(), 
+		windows = file("clipboard", "w"), 
 		mac = pipe("pbcopy", "w"), 
-		linux = pipe("xclip -selection clipboard"), 
+		linux = pipe("xclip -selection clipboard", "w"), 
 		stop("Unknown operating system!!"))
+	on.exit(close(clip), add = TRUE)
+	writeLines(lines, clip)
+	invisible(lines)
 }
 
 
@@ -387,58 +390,67 @@ anovakun <- function(dataset, design, ..., long = FALSE, type2 = FALSE, nopost =
 		baseresults$bstat.info1 <- append(baseresults$bstat.info1, paste0("== The number of removed case is ", miscase, ". =="))
 	}
 
-	# 結果を表示する
-	if(copy){# 指定があった場合，出力をクリップボードにコピー
-		# パッケージ化に伴う変更：関数を抜けるときに必ずsinkを閉じる（tech = TRUEなどで早く抜ける場合も含む）
-		tclip <- open.clip()
-		sink(tclip, split = TRUE)
-		on.exit({
-			sink()
-			if(inherits(tclip, "connection")) close(tclip)# Mac，Linuxの場合
-		}, add = TRUE)
-	}
-	if(tech){# データフレーム形式での出力の場合
-		postnames <- names(postresults)
-		intnames <- postnames[nchar(postnames) == 3]# 単純主効果の検定を行ったリストのラベル
-		if(length(intnames) > 0){
-			for(i in intnames){
-				postresults[[i]] <- postresults[[i]][-(7:9)]# sim.dmat，sim.cellN，sim.flevをカット
-			}
-		}
-		if(is.null(mainresults$besci.info)){
-			retlist <-list("INFORMATION" = rbind(info1, info2, info3), 
-				"DESCRIPTIVE STATISTICS" = baseresults, 
-				"SPHERICITY INDICES" = list(mainresults$epsi.info1, mainresults$epsitab), 
-				"ANOVA TABLE" = list(mainresults$ano.info1, mainresults$anovatab, mainresults$nescitab), 
-				"POST ANALYSES" = postresults)
-		}else{
-			retlist <-list("INFORMATION" = rbind(info1, info2, info3), 
-				"DESCRIPTIVE STATISTICS" = baseresults, 
-				"SPHERICITY INDICES" = list(mainresults$epsi.info1, mainresults$epsitab), 
-				"ANOVA TABLE" = list(mainresults$ano.info1, mainresults$anovatab, mainresults$nescitab), 
-				"EFFECT SIZE INFORMATION" = list(mainresults$besci.info, mainresults$bescitab), 
-				"POST ANALYSES" = postresults)
-		}
-		if(data.frame == TRUE){
-			names(dat) <- c("s", factnames, "y")
-			retlist <- c(retlist, list("DATA.FRAME" = dat))# 計算に使用したデータフレームを付加
-		}
-		return(retlist)
-	}else{# 表形式での出力の場合
-		if(data.frame == TRUE){
-			names(dat) <- c("s", factnames, "y")
-			anova_output(maxfact = maxfact, exe.info = exe.info, baseresults = baseresults, 
-				mainresults = mainresults, postresults = postresults)
-			return(list("DATA.FRAME" = dat))# 計算に使用したデータフレームを付加
-		}else{
-			anova_output(maxfact = maxfact, exe.info = exe.info, baseresults = baseresults, 
-				mainresults = mainresults, postresults = postresults)
+	# 結果をリストにまとめる
+	# パッケージ化に伴う変更：表を画面に書き出す代わりに，結果をanovakunクラスのオブジェクトとして返す；
+	# 表はprint.anovakun()が本家と同じ書式で出力する（トップレベルで呼べば自動的に表示される）
+	postnames <- names(postresults)
+	intnames <- postnames[nchar(postnames) == 3]# 単純主効果の検定を行ったリストのラベル
+	if(length(intnames) > 0){
+		for(i in intnames){
+			postresults[[i]] <- postresults[[i]][-(7:9)]# sim.dmat，sim.cellN，sim.flevをカット
 		}
 	}
+	if(is.null(mainresults$besci.info)){
+		retlist <-list("INFORMATION" = rbind(info1, info2, info3), 
+			"DESCRIPTIVE STATISTICS" = baseresults, 
+			"SPHERICITY INDICES" = list(mainresults$epsi.info1, mainresults$epsitab), 
+			"ANOVA TABLE" = list(mainresults$ano.info1, mainresults$anovatab, mainresults$nescitab), 
+			"POST ANALYSES" = postresults)
+	}else{
+		retlist <-list("INFORMATION" = rbind(info1, info2, info3), 
+			"DESCRIPTIVE STATISTICS" = baseresults, 
+			"SPHERICITY INDICES" = list(mainresults$epsi.info1, mainresults$epsitab), 
+			"ANOVA TABLE" = list(mainresults$ano.info1, mainresults$anovatab, mainresults$nescitab), 
+			"EFFECT SIZE INFORMATION" = list(mainresults$besci.info, mainresults$bescitab), 
+			"POST ANALYSES" = postresults)
+	}
+	if(data.frame == TRUE){
+		names(dat) <- c("s", factnames, "y")
+		retlist <- c(retlist, list("DATA.FRAME" = dat))# 計算に使用したデータフレームを付加
+	}
+
 	# 指定があった場合には，棒グラフを出力
 	if(sum(is.na(bgraph)) < 2 & maxfact <= 3){
 		ci.bars(dat, design, factnames = factnames, inn.tier = bgraph[1], out.tier = bgraph[2])
 	}
+
+	# データフレーム形式での出力の場合（本家と同じリストを返す）
+	if(tech){
+		return(retlist)
+	}
+
+	# 表の出力に必要な情報を付けてオブジェクトにする
+	printnames <- c("flev", "epsi.info1", "epsitab", "ano.info1", "anovatab", "mse.row", "nesci.info1", "nescitab", "besci.info", "bescitab")
+	attr(retlist, "printinfo") <- list("maxfact" = maxfact, "exe.info" = exe.info, 
+		"mainresults" = mainresults[intersect(printnames, names(mainresults))])
+	class(retlist) <- "anovakun"
+
+	# 指定があった場合，出力をクリップボードにコピー
+	if(copy){
+		write.clip(utils::capture.output(print(retlist)))
+	}
+
+	return(retlist)
+}
+
+
+# anovakunの結果を本家と同じ表の形式で出力する関数
+# パッケージ化に伴う追加
+print.anovakun <- function(x, ...){
+	pinfo <- attr(x, "printinfo")
+	anova_output(maxfact = pinfo$maxfact, exe.info = pinfo$exe.info, baseresults = x[["DESCRIPTIVE STATISTICS"]], 
+		mainresults = pinfo$mainresults, postresults = x[["POST ANALYSES"]])
+	invisible(x)
 }
 
 
@@ -2560,11 +2572,12 @@ boot.esci <- function(dat, design, factnames = NA, type2 = FALSE, nopost = FALSE
 				eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, omega = omega, omegana = omegana, 
 				pomega = pomega, gomega = gomega, gomegana = gomegana, prep = prep)
 			}))
-		cat(paste0("\n", round(as.numeric(Sys.time() - stm, units = "secs"), 2), " secs elapsed for bootstrapping.", "\n", sep = ""))
+		message(round(as.numeric(Sys.time() - stm, units = "secs"), 2), " secs elapsed for bootstrapping.")
 	}else{# その他のIDEの場合（プログレスバーを表示）
-		cat("Now Bootstrapping...", "\n")
+		# パッケージ化に伴う変更：進捗はmessage()で出し（suppressMessages()で消せる），バーは対話的な実行のときだけ表示する
+		message("Now Bootstrapping...")
 		bootresults <- do.call(cbind, lapply(1:B, function(v) {
-			if(v %% (B/20) == 0) cat('\r', paste0("|", paste0(rep("=", ceiling(v/(B/50))), collapse = ""), paste0(rep(" ", 50 - ceiling(v/(B/50))), collapse = ""), "| ", 2 * v/(B/50), "%"))
+			if(interactive() && v %% (B/20) == 0) cat('\r', paste0("|", paste0(rep("=", ceiling(v/(B/50))), collapse = ""), paste0(rep(" ", 50 - ceiling(v/(B/50))), collapse = ""), "| ", 2 * v/(B/50), "%"), file = stderr())
 			boot.anova(dat = bootdat[[v]], design = design, factnames = factnames, type2 = type2, dmat = dmat, flev = flev, 
 				cellN = cellN, full.elem = full.elem, epsi.effect = epsi.effect, internal.lab = internal.lab, 
 				int.sig.source = int.sig.source, sim.dmat = sim.dmat, sim.flev = sim.flev, sim.cellN = sim.cellN, 
@@ -2572,7 +2585,8 @@ boot.esci <- function(dat, design, factnames = NA, type2 = FALSE, nopost = FALSE
 				eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, omega = omega, omegana = omegana, 
 				pomega = pomega, gomega = gomega, gomegana = gomegana, prep = prep)
 			}))
-		cat(paste0("\n", "Completed! ", round(as.numeric(Sys.time() - stm, units = "secs"), 2), " secs elapsed.", "\n", sep = ""))
+		if(interactive()) cat("\n", file = stderr())
+		message("Completed! ", round(as.numeric(Sys.time() - stm, units = "secs"), 2), " secs elapsed.")
 	}
 
 	# ジャックナイフ処理
@@ -3031,37 +3045,51 @@ anovatan <- function(dataset, design, ..., tfact = NULL, long = FALSE, type2 = F
 	bet.withN <- c(betlen, withlen) - c(sum(whichfact == 1), sum(whichfact == 2))# 下位検定における被験者間要因・被験者内要因の数を表すベクトル
 	subdesign <- paste0(paste0(LETTERS[(1 * (bet.withN[1] != 0)):bet.withN[1]], collapse = ""), "s", paste0(LETTERS[1 * (bet.withN[2] != 0) * (bet.withN[1]+1:bet.withN[2])], collapse = ""))# 下位検定の計画の型
 
-	# copyオプションの指定があった場合，出力をクリップボードにコピー
-	if(copy){# 指定があった場合，出力をクリップボードにコピー
-		# パッケージ化に伴う変更：関数を抜けるときに必ずsinkを閉じる（tech = TRUEなどで早く抜ける場合も含む）
-		tclip <- open.clip()
-		sink(tclip, split = TRUE)
-		on.exit({
-			sink()
-			if(inherits(tclip, "connection")) close(tclip)# Mac，Linuxの場合
-		}, add = TRUE)
-	}
-
-	# 除外したケースの報告
-	if(miscase != 0){
-		cat("[[ Information for Whole Analysis ]]", "\n")
-		cat(paste0("== The number of removed case is ", miscase, ". =="), "\n", "\n")
-	}
-
 	# anovakunの実行
-	for(i in 1:length(subdat)){
-		cat("\n", sprintf(paste0("[[ Simple Effects for ", names(subdat)[i], " ]]")), "\n", sep = "")
+	# パッケージ化に伴う変更：結果を画面に書き出す代わりに，水準ごとのanovakunの結果をまとめてanovatanクラスのオブジェクトとして返す
+	results <- lapply(1:length(subdat), function(i){
 		anovakun(dataset = subdat[[i]][, -(targetnm + 1)], design = subdesign, long = TRUE, type2 = type2, nopost = nopost, 
 			tech = tech, data.frame = FALSE, copy = FALSE, holm = holm, hc = hc, s2r = s2r, s2d = s2d, fs1 = fs1, fs2r = fs2r, 
 			fs2d = fs2d, welch = welch, criteria = criteria, lb = lb, gg = gg, hf = hf, cm = cm, auto = auto, mau = mau, 
 			har = har, iga = iga, ciga = ciga, eta = eta, peta = peta, geta = geta, eps = eps, peps = peps, geps = geps, 
 			omega = omega, omegana = omegana, pomega = pomega, gomega = gomega, gomegana = gomegana, prep = prep, nesci = nesci, besci = besci, 
 			cilmd = cilmd, cilm = cilm, cind = cind, cin = cin, ciml = ciml, cipaird = cipaird, cipair = cipair, bgraph = bgraph)
+	})
+	names(results) <- names(subdat)
+
+	# データフレーム形式での出力の場合（水準ごとのリストを返す）
+	if(tech){
+		if(data.frame == TRUE) results <- c(results, list("DATA.FRAME" = subdat))
+		return(results)
 	}
 
-	# 指定があった場合は，分割後のデータフレームを出力
-	if(data.frame == TRUE){
-		return(subdat)
+	retlist <- list("results" = results, "removed" = miscase)
+	if(data.frame == TRUE) retlist <- c(retlist, list("DATA.FRAME" = subdat))# 分割後のデータフレームを付加
+	class(retlist) <- "anovatan"
+
+	# 指定があった場合，出力をクリップボードにコピー
+	if(copy){
+		write.clip(utils::capture.output(print(retlist)))
 	}
+
+	return(retlist)
+}
+
+
+# anovatanの結果を本家と同じ形式で出力する関数
+# パッケージ化に伴う追加
+print.anovatan <- function(x, ...){
+	# 除外したケースの報告
+	if(x$removed != 0){
+		cat("[[ Information for Whole Analysis ]]", "\n")
+		cat(paste0("== The number of removed case is ", x$removed, ". =="), "\n", "\n")
+	}
+
+	# 水準ごとの結果
+	for(i in seq_along(x$results)){
+		cat("\n", sprintf(paste0("[[ Simple Effects for ", names(x$results)[i], " ]]")), "\n", sep = "")
+		print(x$results[[i]])
+	}
+	invisible(x)
 }
 

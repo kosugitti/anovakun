@@ -1,5 +1,6 @@
 \name{anovatan}
 \alias{anovatan}
+\alias{print.anovatan}
 \title{Run anovakun separately for each level of a factor}
 \description{
 Splits the data by the factor given in \code{tfact} and runs \code{\link{anovakun}} for each level.
@@ -15,11 +16,14 @@ anovatan(dataset, design, ..., tfact = NULL, long = FALSE, type2 = FALSE,
   prep = FALSE, nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE,
   cind = FALSE, cin = FALSE, ciml = FALSE, cipaird = FALSE, cipair = FALSE,
   bgraph = c(NA, NA))
+
+\method{print}{anovatan}(x, ...)
 }
 \arguments{
+  \item{x}{An object of class \code{"anovatan"}.}
   \item{dataset}{A data frame. Between-subjects factors are arranged in columns at the left (one label column per factor) and within-subjects levels across columns (wide format), unless \code{long = TRUE}.}
   \item{design}{A character string giving the design, e.g. \code{"As"}, \code{"sA"}, \code{"AsB"}. Letters before \code{s} are between-subjects factors and letters after it are within-subjects factors.}
-  \item{\dots}{The numbers of levels of each factor, given in order (e.g. \code{2, 3}).}
+  \item{\dots}{The numbers of levels of each factor, given in order (e.g. \code{2, 3}). Ignored by the \code{print} method.}
   \item{tfact}{The label of the factor by which the data are split; \code{anovakun} is run for each level of this factor.}
   \item{long}{If \code{TRUE}, read data in long format.}
   \item{type2}{If \code{TRUE}, use Type II sums of squares (default is Type III).}
@@ -69,8 +73,13 @@ anovatan(dataset, design, ..., tfact = NULL, long = FALSE, type2 = FALSE,
   \item{bgraph}{Names of confidence-interval options (inner and outer, up to two) for drawing a bar graph with confidence intervals.}
 }
 \value{
-The results are printed. If \code{data.frame = TRUE}, the list of the
-split data frames is returned.
+An object of class \code{"anovatan"}: a list with \code{results}, the
+\code{"anovakun"} objects for each level of the split factor(s),
+\code{removed}, the number of cases removed because of missing values, and,
+if \code{data.frame = TRUE}, \code{DATA.FRAME}, the split data frames.
+Printing it shows the tables of each level in the same layout as the
+original ANOVA-kun. With \code{tech = TRUE}, a plain list of the technical
+outputs of each level (see \code{\link{anovakun}}) is returned instead.
 }
 \author{Ryuta Iseki (author); packaged by Koji Kosugi.}
 \references{

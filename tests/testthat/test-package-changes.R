@@ -24,3 +24,39 @@ test_that("the output header names the bundled ANOVA-kun version", {
   r <- utils::capture.output(anovakun(make_wide(d$design, d$levels, d$n), "As", 3, tech = TRUE))
   expect_true(any(grepl("anovakun 4.8.9 under", r, fixed = TRUE)))
 })
+
+test_that("anovakun returns an object and prints only when shown", {
+  d <- designs$AsB
+  w <- make_wide(d$design, d$levels, d$n)
+  expect_identical(utils::capture.output(x <- anovakun(w, "AsB", 2, 3)), character(0))
+  expect_s3_class(x, "anovakun")
+  expect_named(x, c("INFORMATION", "DESCRIPTIVE STATISTICS", "SPHERICITY INDICES",
+                    "ANOVA TABLE", "POST ANALYSES"))
+  out <- utils::capture.output(y <- print(x))
+  expect_identical(y, x)
+  expect_true(any(grepl("<< ANOVA TABLE >>", out, fixed = TRUE)))
+  expect_identical(utils::capture.output(x), out)
+})
+
+test_that("anovatan returns an object with one anovakun result per level", {
+  d <- designs$AsBC
+  w <- make_wide(d$design, d$levels, d$n)
+  expect_identical(utils::capture.output(x <- anovatan(w, "AsBC", 2, 2, 3, tfact = "A")), character(0))
+  expect_s3_class(x, "anovatan")
+  expect_named(x$results, c("a1", "a2"))
+  expect_true(all(vapply(x$results, inherits, logical(1), "anovakun")))
+  out <- utils::capture.output(print(x))
+  expect_identical(sum(grepl("[[ Simple Effects for", out, fixed = TRUE)), 2L)
+  t <- anovatan(w, "AsBC", 2, 2, 3, tfact = "A", tech = TRUE)
+  expect_named(t, c("a1", "a2"))
+  expect_false(inherits(t, "anovatan"))
+})
+
+test_that("bootstrap progress goes to messages, not to the output", {
+  skip_on_cran()
+  d <- designs$As
+  w <- make_wide(d$design, d$levels, d$n)
+  expect_message(out <- utils::capture.output(x <- anovakun(w, "As", 3, peta = TRUE, besci = TRUE)),
+                 "Bootstrapping")
+  expect_identical(out, character(0))
+})

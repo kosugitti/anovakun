@@ -2,7 +2,8 @@
 
 * local macOS (aarch64-apple-darwin), R 4.6.x: 0 errors, 0 warnings,
   1 NOTE (HTML manual validation, an artifact of the local HTML Tidy version)
-* win-builder R-devel: (fill in from the e-mail)
+* win-builder R-devel (2026-10-20 r90728 ucrt): 1 NOTE (New submission),
+  check time 222 s
 * mac-builder R release: (fill in from the e-mail)
 * GitHub Actions: macOS, Windows and Ubuntu on R release, Ubuntu on R-devel
   and R oldrel-1: (fill in)

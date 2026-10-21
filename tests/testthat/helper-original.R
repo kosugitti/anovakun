@@ -11,52 +11,83 @@ orig <- new.env(parent = globalenv())
 sys.source(original_file(), envir = orig, keep.source = FALSE,
            toplevel.env = orig)
 
-# Run a function, returning either its value or the error message.
-run_or_error <- function(f, args, seed) {
+# Run a function. Returns its value (or the error message) and what it wrote
+# to standard output during the call. Messages (progress of the bootstrap)
+# are not part of the comparison.
+run <- function(f, args, seed) {
   set.seed(seed)
-  tryCatch(do.call(f, args), error = function(e) structure(conditionMessage(e), class = "run_error"))
+  out <- utils::capture.output(
+    value <- tryCatch(suppressMessages(do.call(f, args)),
+                      error = function(e) structure(conditionMessage(e), class = "run_error")))
+  list(value = value, out = out)
 }
 
-# Returned value, with the printed output discarded.
-run_value <- function(f, args, seed) {
-  utils::capture.output(res <- run_or_error(f, args, seed))
-  res
+# Drop the lines that differ from run to run (execution date, time spent and
+# the progress of the bootstrap, which the original writes to the console).
+stable_lines <- function(out) {
+  out[!grepl("It was executed on|secs elapsed|Now Bootstrapping|\r", out)]
 }
 
-# Printed output with the lines holding the execution date and time removed.
-printed <- function(f, args, seed) {
-  out <- utils::capture.output(res <- run_or_error(f, args, seed))
-  if (inherits(res, "run_error")) return(res)
-  out[!grepl("It was executed on|secs elapsed", out)]
+# What the user sees: for the package, the output during the call plus the
+# printed result object; for the original, the output during the call.
+shown <- function(r) {
+  if (inherits(r$value, "run_error")) return(r$value)
+  out <- r$out
+  if (inherits(r$value, c("anovakun", "anovatan"))) {
+    out <- c(out, utils::capture.output(print(r$value)))
+  }
+  stable_lines(out)
 }
 
-# The packaged function and the original must give identical results,
-# both as the technical output (tech = TRUE) and as printed tables.
-# anovatan() discards the results of tech = TRUE, so `tech = FALSE` skips
-# that comparison.
+# The result object without its class, print information and execution date,
+# i.e. the list that tech = TRUE returns.
+as_tech <- function(x) {
+  x <- unclass(x)
+  attr(x, "printinfo") <- NULL
+  x$INFORMATION <- NULL
+  x
+}
+
+# The packaged function and the original must give identical results.
+# * The tables shown to the user are identical.
+# * anovakun(): tech = TRUE returns the identical list, and the result object
+#   holds the same list; data.frame = TRUE returns the same data frame.
+# * anovatan(): the split data frames are identical, and tech = TRUE returns
+#   the same lists as the result object holds for each level.
+# * The package writes nothing to the console during the call.
 # `error = TRUE` says that the call is expected to stop; otherwise a call
 # that stops is a failure, so that a broken test input cannot pass by
 # producing the same error from both versions.
-expect_same_as_original <- function(fun, args, seed = 1, tech = TRUE, error = FALSE) {
+expect_same_as_original <- function(fun, args, seed = 1, error = FALSE) {
+  # Build the test data now: making it uses the random number generator, which
+  # would otherwise shift the bootstrap of the first call after set.seed().
+  force(args)
   new_f <- getExportedValue("anovakun", fun)
   old_f <- get(fun, envir = orig)
 
-  old_v <- run_value(old_f, args, seed)
-  if (inherits(old_v, "run_error") && !error) {
-    fail(paste("The original stopped unexpectedly:", old_v))
+  old <- run(old_f, args, seed)
+  new <- run(new_f, args, seed)
+  if (inherits(old$value, "run_error") && !error) {
+    fail(paste("The original stopped unexpectedly:", old$value))
   }
-  expect_identical(inherits(old_v, "run_error"), error)
+  expect_identical(inherits(old$value, "run_error"), error)
+  expect_identical(shown(new), shown(old))
+  if (error) return(invisible())
+  expect_identical(new$out, character(0))
 
-  if (tech) {
-    targs <- c(args, list(tech = TRUE))
-    new_t <- run_or_error(new_f, targs, seed)
-    old_t <- run_or_error(old_f, targs, seed)
-    if (is.list(new_t)) new_t$INFORMATION <- NULL
-    if (is.list(old_t)) old_t$INFORMATION <- NULL
+  targs <- c(args, list(tech = TRUE))
+  new_t <- run(new_f, targs, seed)$value
+  if (fun == "anovakun") {
+    old_t <- run(old_f, targs, seed)$value
+    old_t$INFORMATION <- NULL
+    new_t$INFORMATION <- NULL
     expect_identical(new_t, old_t)
+    expect_identical(as_tech(new$value), new_t)
+    expect_identical(new$value$DATA.FRAME, old$value$DATA.FRAME)
+  } else {
+    expect_identical(new$value$DATA.FRAME, old$value)
+    new_t$DATA.FRAME <- NULL
+    expect_identical(lapply(new_t, function(x) { x$INFORMATION <- NULL; x }),
+                     lapply(new$value$results, as_tech))
   }
-
-  # Returned value of the printed call (e.g. data.frame = TRUE).
-  expect_identical(run_value(new_f, args, seed), run_value(old_f, args, seed))
-  expect_identical(printed(new_f, args, seed), printed(old_f, args, seed))
 }

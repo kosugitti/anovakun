@@ -1,5 +1,6 @@
 \name{anovakun}
 \alias{anovakun}
+\alias{print.anovakun}
 \title{Analysis of variance for factorial designs (ANOVA-kun)}
 \description{
 Performs analysis of variance for between-subjects, within-subjects, and mixed designs, given the design type and the number of levels of each factor. Post hoc analyses (multiple comparisons and simple effects), sphericity tests and corrections, effect sizes and confidence intervals are included. This is the ANOVA-kun function written by Ryuta Iseki, packaged without changing its computations.
@@ -15,11 +16,14 @@ anovakun(dataset, design, ..., long = FALSE, type2 = FALSE, nopost = FALSE,
   prep = FALSE, nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE,
   cind = FALSE, cin = FALSE, ciml = FALSE, cipaird = FALSE, cipair = FALSE,
   bgraph = c(NA, NA))
+
+\method{print}{anovakun}(x, ...)
 }
 \arguments{
+  \item{x}{An object of class \code{"anovakun"}.}
   \item{dataset}{A data frame. Between-subjects factors are arranged in columns at the left (one label column per factor) and within-subjects levels across columns (wide format), unless \code{long = TRUE}.}
   \item{design}{A character string giving the design, e.g. \code{"As"}, \code{"sA"}, \code{"AsB"}. Letters before \code{s} are between-subjects factors and letters after it are within-subjects factors.}
-  \item{\dots}{The numbers of levels of each factor, given in order (e.g. \code{2, 3}).}
+  \item{\dots}{The numbers of levels of each factor, given in order (e.g. \code{2, 3}). Ignored by the \code{print} method.}
   \item{long}{If \code{TRUE}, read data in long format.}
   \item{type2}{If \code{TRUE}, use Type II sums of squares (default is Type III).}
   \item{nopost}{If \code{TRUE}, do not run post hoc analyses.}
@@ -68,7 +72,21 @@ anovakun(dataset, design, ..., long = FALSE, type2 = FALSE, nopost = FALSE,
   \item{bgraph}{Names of confidence-interval options (inner and outer, up to two) for drawing a bar graph with confidence intervals.}
 }
 \value{
-Results are printed as tables. With \code{tech = TRUE}, a list of data frames is returned.
+An object of class \code{"anovakun"}. Printing it (which happens
+automatically when \code{anovakun()} is called at the top level) shows the
+tables in the same layout as the original ANOVA-kun; assigning it, as in
+\code{res <- anovakun(...)}, shows nothing. The object is a list with the
+elements \code{INFORMATION}, \code{DESCRIPTIVE STATISTICS},
+\code{SPHERICITY INDICES}, \code{ANOVA TABLE}, \code{EFFECT SIZE INFORMATION}
+(when \code{besci = TRUE}), \code{POST ANALYSES} and \code{DATA.FRAME} (when
+\code{data.frame = TRUE}), the same list as the technical output.
+
+With \code{tech = TRUE}, the technical output is returned as a plain list (as
+in the original ANOVA-kun).
+
+With \code{copy = TRUE}, the printed tables are also written to the
+clipboard. With \code{besci = TRUE}, the progress of the bootstrap is reported
+by \code{\link{message}()}.
 }
 \author{Ryuta Iseki (author); packaged by Koji Kosugi.}
 \references{
@@ -85,4 +103,9 @@ dat <- data.frame(
   b2c2 = c(13, 12, 15, 15, 14, 15)
 )
 anovakun(dat, "AsBC", 2, 2, 2)
+
+# Keep the result and look at a part of it
+res <- anovakun(dat, "AsBC", 2, 2, 2, peta = TRUE)
+res[["ANOVA TABLE"]][[2]]
+res
 }
