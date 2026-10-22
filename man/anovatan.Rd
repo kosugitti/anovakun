@@ -78,8 +78,10 @@ An object of class \code{"anovatan"}: a list with \code{results}, the
 \code{removed}, the number of cases removed because of missing values, and,
 if \code{data.frame = TRUE}, \code{DATA.FRAME}, the split data frames.
 Printing it shows the tables of each level in the same layout as the
-original ANOVA-kun. With \code{tech = TRUE}, a plain list of the technical
-outputs of each level (see \code{\link{anovakun}}) is returned instead.
+original ANOVA-kun. With \code{tech = TRUE}, a plain list is returned
+instead, holding in turn the heading of each level
+(\code{"[[ Simple Effects for ... ]]"}) and its technical output (see
+\code{\link{anovakun}}); \code{data.frame} is ignored in this case.
 }
 \author{Ryuta Iseki (author); packaged by Koji Kosugi.}
 \references{

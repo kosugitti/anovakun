@@ -77,6 +77,12 @@ test_that("anovakun: input errors", {
   expect_same_as_original("anovakun", list(make_wide(d$design, d$levels, d$n), "AsB", 2, 3, holmm = TRUE), error = TRUE)
 })
 
+test_that("anovakun: simple effects of a between-subjects factor with iga/ciga", {
+  for (opt in list(list(iga = TRUE), list(ciga = TRUE), list(iga = TRUE, eta = TRUE, nesci = TRUE))) {
+    expect_same_as_original("anovakun", c(list(crossing_AsB, "AsB", 2, 3), opt))
+  }
+})
+
 test_that("anovakun: multilevel confidence intervals (ciml)", {
   skip_if_not_installed("lmerTest")
   skip_if_not_installed("pbkrtest")  # Kenward-Roger degrees of freedom

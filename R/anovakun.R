@@ -3057,10 +3057,14 @@ anovatan <- function(dataset, design, ..., tfact = NULL, long = FALSE, type2 = F
 	})
 	names(results) <- names(subdat)
 
-	# データフレーム形式での出力の場合（水準ごとのリストを返す）
+	# データフレーム形式での出力の場合（本家4.9.0と同じく，見出しと水準ごとの結果を交互に並べたリストを返す）
 	if(tech){
-		if(data.frame == TRUE) results <- c(results, list("DATA.FRAME" = subdat))
-		return(results)
+		techoutputs <- c()
+		for(i in seq_along(results)){
+			tmplab <- paste0("[[ Simple Effects for ", names(results)[i], " ]]")
+			techoutputs <- c(techoutputs, list(tmplab, results[[i]]))
+		}
+		return(techoutputs)
 	}
 
 	retlist <- list("results" = results, "removed" = miscase)

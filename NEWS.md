@@ -16,8 +16,9 @@
   `tech = TRUE` still returns the plain list.
 * `anovatan()` returns an object of class `"anovatan"` holding the
   `"anovakun"` results for each level (and the split data with
-  `data.frame = TRUE`). With `tech = TRUE` it returns the plain lists of each
-  level; the original printed only the headings and returned `NULL`.
+  `data.frame = TRUE`). With `tech = TRUE` it returns a list of the heading
+  and the plain list of each level in turn, as the original does from 4.9.0
+  (up to 4.8.9 the original printed only the headings and returned `NULL`).
 * With `data.frame = TRUE`, the data frame is an element (`DATA.FRAME`) of the
   returned object; the original returned it alone.
 * With `bgraph`, the bar graph is drawn when `anovakun()` is called, i.e.

@@ -48,7 +48,7 @@ test_that("anovatan returns an object with one anovakun result per level", {
   out <- utils::capture.output(print(x))
   expect_identical(sum(grepl("[[ Simple Effects for", out, fixed = TRUE)), 2L)
   t <- anovatan(w, "AsBC", 2, 2, 3, tfact = "A", tech = TRUE)
-  expect_named(t, c("a1", "a2"))
+  expect_identical(t[c(TRUE, FALSE)], list("[[ Simple Effects for a1 ]]", "[[ Simple Effects for a2 ]]"))
   expect_false(inherits(t, "anovatan"))
 })
 

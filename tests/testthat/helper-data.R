@@ -80,3 +80,14 @@ designs <- list(
 design_args <- function(d, ...) {
   c(list(make_wide(d$design, d$levels, d$n), d$design), as.list(d$levels), list(...))
 }
+
+# AsB with a crossing interaction, so that the simple effects of the
+# between-subjects factor A are tested at each level of B. With iga or ciga
+# this goes through the row of NAs that stands for the sphericity results of
+# a between-subjects factor.
+crossing_AsB <- data.frame(
+  A  = rep(c("a1", "a2"), each = 6),
+  X1 = c(9.1, 10.2, 9.6, 12, 10.6, 8.4, 15.2, 14.7, 14.4, 14.1, 15.9, 14),
+  X2 = c(9.2, 12.2, 11.8, 13.7, 12.3, 10.7, 12.4, 11.4, 12.5, 11.5, 14.1, 12.8),
+  X3 = c(15.1, 15.6, 14.5, 12.6, 14.1, 13.8, 11.1, 10.1, 12.2, 9.3, 10.5, 11.5)
+)

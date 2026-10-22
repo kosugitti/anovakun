@@ -11,15 +11,21 @@ orig <- new.env(parent = globalenv())
 sys.source(original_file(), envir = orig, keep.source = FALSE,
            toplevel.env = orig)
 
-# Run a function. Returns its value (or the error message) and what it wrote
-# to standard output during the call. Messages (progress of the bootstrap)
-# are not part of the comparison.
+# Run a function. Returns its value (or the error message), what it wrote
+# to standard output during the call and the warnings it gave. Messages
+# (progress of the bootstrap) are not part of the comparison.
 run <- function(f, args, seed) {
   set.seed(seed)
+  warns <- character(0)
   out <- utils::capture.output(
-    value <- tryCatch(suppressMessages(do.call(f, args)),
-                      error = function(e) structure(conditionMessage(e), class = "run_error")))
-  list(value = value, out = out)
+    value <- tryCatch(
+      withCallingHandlers(suppressMessages(do.call(f, args)),
+                          warning = function(w) {
+                            warns <<- c(warns, conditionMessage(w))
+                            invokeRestart("muffleWarning")
+                          }),
+      error = function(e) structure(conditionMessage(e), class = "run_error")))
+  list(value = value, out = out, warnings = warns)
 }
 
 # Drop the lines that differ from run to run (execution date, time spent and
@@ -49,7 +55,7 @@ as_tech <- function(x) {
 }
 
 # The packaged function and the original must give identical results.
-# * The tables shown to the user are identical.
+# * The tables shown to the user and the warnings are identical.
 # * anovakun(): tech = TRUE returns the identical list, and the result object
 #   holds the same list; data.frame = TRUE returns the same data frame.
 # * anovatan(): the split data frames are identical, and tech = TRUE returns
@@ -72,6 +78,7 @@ expect_same_as_original <- function(fun, args, seed = 1, error = FALSE) {
   }
   expect_identical(inherits(old$value, "run_error"), error)
   expect_identical(shown(new), shown(old))
+  expect_identical(new$warnings, old$warnings)
   if (error) return(invisible())
   expect_identical(new$out, character(0))
 
@@ -86,8 +93,20 @@ expect_same_as_original <- function(fun, args, seed = 1, error = FALSE) {
     expect_identical(new$value$DATA.FRAME, old$value$DATA.FRAME)
   } else {
     expect_identical(new$value$DATA.FRAME, old$value)
-    new_t$DATA.FRAME <- NULL
-    expect_identical(lapply(new_t, function(x) { x$INFORMATION <- NULL; x }),
-                     lapply(new$value$results, as_tech))
+    # tech = TRUE gives the headings and the results of the levels in turn.
+    # Up to 4.8.9 the original returns NULL (or the split data with
+    # data.frame = TRUE) instead, so it is compared only when it does so too.
+    drop_info <- function(x) {
+      if (is.list(x)) x$INFORMATION <- NULL
+      x
+    }
+    old_t <- run(old_f, targs, seed)$value
+    if (is.list(old_t) && is.character(old_t[[1]])) {
+      expect_identical(lapply(new_t, drop_info), lapply(old_t, drop_info))
+    }
+    expect_identical(unlist(new_t[c(TRUE, FALSE)]),
+                     paste0("[[ Simple Effects for ", names(new$value$results), " ]]"))
+    expect_identical(lapply(new_t[c(FALSE, TRUE)], drop_info),
+                     unname(lapply(new$value$results, as_tech)))
   }
 }
