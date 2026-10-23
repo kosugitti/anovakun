@@ -53,6 +53,24 @@ Issue を立てます)。
 
 CRAN への登録を準備中です。
 
+## 質問と不具合の報告
+
+- 使い方の質問は [Discussions の
+  Q&A](https://github.com/kosugitti/anovakun/discussions/categories/q-a)
+  へどうぞ。
+- エラーで止まる，結果や表示がおかしい，といった不具合は
+  [Issues](https://github.com/kosugitti/anovakun/issues)
+  へお願いします。再現できるデータ(または
+  [`dput()`](https://rdrr.io/r/base/dput.html)
+  の出力)，[`anovakun()`](https://kosugitti.github.io/anovakun/reference/anovakun.md)
+  の呼び出し，[`sessionInfo()`](https://rdrr.io/r/utils/sessionInfo.html)
+  の出力を添えていただけると助かります。
+
+Questions are welcome in
+[Discussions](https://github.com/kosugitti/anovakun/discussions) and bug
+reports in [Issues](https://github.com/kosugitti/anovakun/issues), in
+English or Japanese.
+
 ## 名前とライセンスについて
 
 本家の利用条件では，改変版はメインの関数名を変えることになっていますが，作者の井関氏から，分析関数の仕様を変えない限り
