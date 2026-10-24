@@ -4,9 +4,9 @@
   1 NOTE (HTML manual validation, an artifact of the local HTML Tidy version)
 * win-builder R-devel (2026-10-20 r90728 ucrt): 1 NOTE (New submission),
   check time 222 s
-* mac-builder R release: (fill in from the e-mail)
+* mac-builder R release (R 4.6.1, macOS 26.6, arm64): Status OK
 * GitHub Actions: macOS, Windows and Ubuntu on R release, Ubuntu on R-devel
-  and R oldrel-1: (fill in for the submitted commit)
+  and R oldrel-1: all OK (re-run for the submitted commit)
 
 ## R CMD check results
 
