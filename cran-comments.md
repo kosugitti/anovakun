@@ -2,9 +2,8 @@
 
 * local macOS (aarch64-apple-darwin), R 4.6.x (--as-cran, 2026-11-02):
   0 errors, 0 warnings, 0 notes
-* win-builder R-devel (2026-11-01 r90825 ucrt): 1 NOTE (New submission;
-  the "possibly misspelled words" are proper names and statistical terms:
-  Bonferroni, Holm, Iseki, Ryuta, sphericity), check time 109 s
+* win-builder R-devel (2026-11-01 r90825 ucrt): 1 NOTE (New submission only),
+  check time 112 s
 * mac-builder: not available on 2026-11-02 (HTTP 502 on upload); version
   1.0.0 was checked there on 2026-10-24 (R 4.6.1, macOS 26.6, arm64: OK)
 * GitHub Actions: macOS, Windows and Ubuntu on R release, Ubuntu on R-devel
