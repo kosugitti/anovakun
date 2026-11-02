@@ -6,7 +6,6 @@
 ^docs$
 ^pkgdown$
 ^CLAUDE\.md$
-^WORKLOG\.md$
-^memo_.*\.md$
+^develop$
 ^tests/testthat/_problems$
 ^cran-comments\.md$
