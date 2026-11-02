@@ -5,9 +5,10 @@
 * win-builder R-devel (2026-11-01 r90825 ucrt): 1 NOTE (New submission;
   the "possibly misspelled words" are proper names and statistical terms:
   Bonferroni, Holm, Iseki, Ryuta, sphericity), check time 109 s
-* mac-builder R release: (fill in: sent 2026-11-02)
+* mac-builder: not available on 2026-11-02 (HTTP 502 on upload); version
+  1.0.0 was checked there on 2026-10-24 (R 4.6.1, macOS 26.6, arm64: OK)
 * GitHub Actions: macOS, Windows and Ubuntu on R release, Ubuntu on R-devel
-  and R oldrel-1: (fill in: re-run for the submitted commit)
+  and R oldrel-1: all OK (2026-11-02)
 
 Version 1.0.0 (bundling 'ANOVA-kun' 4.8.9) passed the same checks on
 2026-10-22/24 (win-builder: 1 NOTE "New submission"; mac-builder: OK;
