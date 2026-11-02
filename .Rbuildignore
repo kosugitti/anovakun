@@ -9,3 +9,4 @@
 ^develop$
 ^tests/testthat/_problems$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
