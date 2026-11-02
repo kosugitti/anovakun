@@ -48,7 +48,7 @@
 * `options()` and `par()` are restored with `on.exit()`, so they are restored
   even if the analysis stops with an error.
 * The operating system (for `copy = TRUE`, `read.clip()`) is detected with
-  `Sys.info()`; the original test on `.Platform` did not recognise macOS when R
+  `Sys.info()`; the original test on `.Platform` did not recognize macOS when R
   was built from source.
 * Internal functions `anova.modeler()` and `anova.output()` were renamed to
   `anova_modeler()` and `anova_output()` so that they are not mistaken for S3

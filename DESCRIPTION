@@ -20,6 +20,7 @@ License: MIT + file LICENSE
 URL: https://github.com/kosugitti/anovakun, https://kosugitti.github.io/anovakun/
 BugReports: https://github.com/kosugitti/anovakun/issues
 Encoding: UTF-8
+Language: en-US
 Depends: R (>= 4.1.0)
 Imports: graphics, grDevices, stats, utils
 Suggests: lmerTest, lme4, pbkrtest, testthat (>= 3.0.0)
