@@ -32,7 +32,6 @@ option_sets <- list(
   geta_A    = list(geta = "A"),
   eps       = list(eps = TRUE, peps = TRUE, geps = TRUE),
   omega     = list(omega = TRUE, omegana = TRUE, pomega = TRUE, gomega = TRUE, gomegana = TRUE),
-  prep      = list(prep = TRUE),
   nesci     = list(eta = TRUE, peta = TRUE, geta = TRUE, eps = TRUE, peps = TRUE, geps = TRUE,
                    omega = TRUE, pomega = TRUE, gomega = TRUE, nesci = TRUE),
   # confidence intervals of means

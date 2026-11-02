@@ -1,12 +1,18 @@
 ## Test environments
 
-* local macOS (aarch64-apple-darwin), R 4.6.x: 0 errors, 0 warnings,
-  1 NOTE (HTML manual validation, an artifact of the local HTML Tidy version)
-* win-builder R-devel (2026-10-20 r90728 ucrt): 1 NOTE (New submission),
-  check time 222 s
-* mac-builder R release (R 4.6.1, macOS 26.6, arm64): Status OK
+* local macOS (aarch64-apple-darwin), R 4.6.x (--as-cran, 2026-11-02):
+  0 errors, 0 warnings, 0 notes
+* win-builder R-devel (2026-11-01 r90825 ucrt): 1 NOTE (New submission;
+  the "possibly misspelled words" are proper names and statistical terms:
+  Bonferroni, Holm, Iseki, Ryuta, sphericity), check time 109 s
+* mac-builder R release: (fill in: sent 2026-11-02)
 * GitHub Actions: macOS, Windows and Ubuntu on R release, Ubuntu on R-devel
-  and R oldrel-1: all OK (re-run for the submitted commit)
+  and R oldrel-1: (fill in: re-run for the submitted commit)
+
+Version 1.0.0 (bundling 'ANOVA-kun' 4.8.9) passed the same checks on
+2026-10-22/24 (win-builder: 1 NOTE "New submission"; mac-builder: OK;
+Actions: all OK). Version 1.1.0 bundles 'ANOVA-kun' 4.9.0, released on
+2026-11-02.
 
 ## R CMD check results
 

@@ -1,7 +1,7 @@
 Package: anovakun
 Type: Package
 Title: Analysis of Variance for Factorial Designs ('ANOVA-kun')
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(
     person("Ryuta", "Iseki", role = c("aut", "cph")),
     person("Koji", "Kosugi", email = "kosugitti@gmail.com", role = "cre",

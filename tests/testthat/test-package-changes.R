@@ -22,7 +22,7 @@ test_that("options(contrasts) are restored even when the analysis stops", {
 test_that("the output header names the bundled ANOVA-kun version", {
   d <- designs$As
   r <- utils::capture.output(anovakun(make_wide(d$design, d$levels, d$n), "As", 3, tech = TRUE))
-  expect_true(any(grepl("anovakun 4.8.9 under", r, fixed = TRUE)))
+  expect_true(any(grepl("anovakun 4.9.0 under", r, fixed = TRUE)))
 })
 
 test_that("anovakun returns an object and prints only when shown", {
@@ -59,4 +59,14 @@ test_that("bootstrap progress goes to messages, not to the output", {
   expect_message(out <- utils::capture.output(x <- anovakun(w, "As", 3, peta = TRUE, besci = TRUE)),
                  "Bootstrapping")
   expect_identical(out, character(0))
+})
+
+test_that("the bootstrap stops with an error where the original aborts", {
+  set.seed(1)
+  d <- data.frame(A = rep(c("a1", "a2", "a3"), each = 5), y = rnorm(15))
+  expect_error(anovakun(d, "As", 3, besci = TRUE, tech = TRUE),
+               "Please specify some effect sizes", fixed = TRUE)
+  d2 <- data.frame(A = rep(c("a1", "a2", "a3"), c(2, 5, 5)), y = rnorm(12))
+  expect_error(anovakun(d2, "As", 3, eta = TRUE, besci = TRUE, tech = TRUE),
+               "Too small sample size", fixed = TRUE)
 })

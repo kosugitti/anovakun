@@ -13,7 +13,7 @@ anovakun(dataset, design, ..., long = FALSE, type2 = FALSE, nopost = FALSE,
   cm = FALSE, auto = FALSE, mau = FALSE, har = FALSE, iga = FALSE, ciga = FALSE,
   eta = FALSE, peta = FALSE, geta = NA, eps = FALSE, peps = FALSE, geps = NA,
   omega = FALSE, omegana = FALSE, pomega = FALSE, gomega = NA, gomegana = NA,
-  prep = FALSE, nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE,
+  nesci = FALSE, besci = FALSE, cilmd = FALSE, cilm = FALSE,
   cind = FALSE, cin = FALSE, ciml = FALSE, cipaird = FALSE, cipair = FALSE,
   bgraph = c(NA, NA))
 
@@ -59,7 +59,6 @@ anovakun(dataset, design, ..., long = FALSE, type2 = FALSE, nopost = FALSE,
   \item{pomega}{If \code{TRUE}, add partial omega squared.}
   \item{gomega}{If \code{TRUE}, add generalized omega squared (additive model). A character string of factor labels marks measured factors.}
   \item{gomegana}{If \code{TRUE}, add generalized omega squared (nonadditive model). A character string of factor labels marks measured factors.}
-  \item{prep}{If \code{TRUE}, add p_rep to the ANOVA table.}
   \item{nesci}{If \code{TRUE}, compute confidence intervals of the requested effect sizes based on the noncentral F distribution.}
   \item{besci}{If \code{TRUE}, compute bootstrap confidence intervals of the requested effect sizes.}
   \item{cilmd}{If \code{TRUE}, add difference-adjusted Loftus-Masson confidence intervals to the descriptive table.}

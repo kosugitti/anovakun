@@ -1,3 +1,14 @@
+# anovakun 1.1.0
+
+* Updated to 'ANOVA-kun' 4.9.0 (released 2026-11-02). Changes in the original:
+  the `prep` option (p_rep) is removed; the output of `iga`/`ciga` for the
+  simple main effects of between-subjects factors is fixed; `anovatan()`
+  with `tech = TRUE` returns the results; the bootstrap (`besci = TRUE`)
+  stops when a cell has fewer than three observations.
+* Where the original stops the bootstrap with `message()` and
+  `invokeRestart("abort")`, the package signals an error with `stop()` and the
+  same message, so that the condition can be caught.
+
 # anovakun 1.0.0
 
 * First release as an R package. It contains 'ANOVA-kun' 4.8.9 by Ryuta Iseki
