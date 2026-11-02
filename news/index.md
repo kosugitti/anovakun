@@ -73,7 +73,7 @@
 - The operating system (for `copy = TRUE`,
   [`read.clip()`](https://kosugitti.github.io/anovakun/reference/read.clip.md))
   is detected with [`Sys.info()`](https://rdrr.io/r/base/Sys.info.html);
-  the original test on `.Platform` did not recognise macOS when R was
+  the original test on `.Platform` did not recognize macOS when R was
   built from source.
 - Internal functions `anova.modeler()` and `anova.output()` were renamed
   to `anova_modeler()` and `anova_output()` so that they are not
