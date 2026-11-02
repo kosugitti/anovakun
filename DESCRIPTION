@@ -8,14 +8,16 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-5816-0099")))
 Description: Performs analysis of variance for between-subjects,
     within-subjects and mixed factorial designs with up to 26 factors,
-    together with multiple comparisons (Holm, Shaffer and related modified
-    Bonferroni procedures), simple effects analyses, sphericity tests and
-    epsilon corrections, effect sizes with confidence intervals, and
-    confidence intervals of cell means. It
-    distributes the 'ANOVA-kun' functions written by Ryuta Iseki
-    <https://riseki.cloudfree.jp/?ANOVA%E5%90%9B>, where the methods and
-    their references are documented, without changing their computations;
-    the results are returned as objects that print the original tables.
+    together with stepwise multiple comparison procedures, simple effects
+    analyses, tests of the covariance structure of repeated measures with the
+    corresponding epsilon corrections, effect sizes with confidence
+    intervals, and confidence intervals of cell means. It distributes
+    the 'ANOVA-kun' functions <https://riseki.cloudfree.jp/?ANOVA%E5%90%9B>,
+    which are widely used for factorial designs in Japanese psychology and
+    whose author is listed in the Authors field, without changing their
+    computations; the methods and their references are documented on that
+    page, and the results are returned as objects that print the original
+    tables.
 License: MIT + file LICENSE
 URL: https://github.com/kosugitti/anovakun, https://kosugitti.github.io/anovakun/
 BugReports: https://github.com/kosugitti/anovakun/issues
