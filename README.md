@@ -1,4 +1,4 @@
-# anovakun
+# anovakun <a href="https://kosugitti.github.io/anovakun/"><img src="man/figures/logo.png" align="right" height="120" alt="anovakun website" /></a>
 
 井関龍太氏による分散分析関数「ANOVA君」(anovakun)を，R パッケージとしてインストールできる形にまとめるためのリポジトリです。
 
