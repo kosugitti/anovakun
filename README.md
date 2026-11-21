@@ -10,10 +10,18 @@
 
 ## インストール
 
+CRAN から入れられます。
+
+```r
+install.packages("anovakun")
+library(anovakun)
+```
+
+開発版は GitHub から入れられます。
+
 ```r
 # install.packages("remotes")
 remotes::install_github("kosugitti/anovakun")
-library(anovakun)
 ```
 
 ## 使い方
@@ -38,7 +46,7 @@ res[["ANOVA TABLE"]]                               # 分散分析表の部分(te
 
 パッケージ版 1.1.0 は本家 4.9.0 を収めています。本家の原本は `inst/original/` に置き，本家の関数とパッケージ版が同じデータ・同じ指定で同じ結果を返すことをテスト(`tests/testthat/`)で確かめています。本家からの変更点(いずれも計算結果には影響しません)は `NEWS.md` に一覧があります。本家の次の版が公開されたら差し替えます(本家ページを週1回自動で確認し，新版があれば Issue を立てます)。
 
-CRAN への登録を準備中です。
+1.1.0 は 2026年11月20日に [CRAN](https://CRAN.R-project.org/package=anovakun) に登録されました。
 
 ## 質問と不具合の報告
 
