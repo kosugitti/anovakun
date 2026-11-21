@@ -2,6 +2,8 @@
 
 ## anovakun 1.1.0
 
+CRAN release: 2026-11-20
+
 - Updated to ‘ANOVA-kun’ 4.9.0 (released 2026-11-02). Changes in the
   original: the `prep` option (p_rep) is removed; the output of
   `iga`/`ciga` for the simple main effects of between-subjects factors

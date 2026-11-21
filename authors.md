@@ -9,7 +9,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/kosugitti/anovakun/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/kosugitti/anovakun/blob/v1.1.0/DESCRIPTION)
 
 Iseki R (2026). *anovakun: Analysis of Variance for Factorial Designs
 ('ANOVA-kun')*. R package version 1.1.0,
