@@ -5,6 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Analysis of Variance for Factorial Designs (ANOVA-kun) • anovakun for CRAN</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -12,6 +17,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Analysis of Variance for Factorial Designs (ANOVA-kun)">
 <meta name="description" content="Performs analysis of variance for between-subjects, within-subjects and mixed factorial designs with up to 26 factors, together with stepwise multiple comparison procedures, simple effects analyses, tests of the covariance structure of repeated measures with the corresponding epsilon corrections, effect sizes with confidence intervals, and confidence intervals of cell means. It distributes the ANOVA-kun functions &lt;https://riseki.cloudfree.jp/?ANOVA%E5%90%9B&gt;, which are widely used for factorial designs in Japanese psychology and whose author is listed in the Authors field, without changing their computations; the methods and their references are documented on that page, and the results are returned as objects that print the original tables.">
 <meta property="og:description" content="Performs analysis of variance for between-subjects, within-subjects and mixed factorial designs with up to 26 factors, together with stepwise multiple comparison procedures, simple effects analyses, tests of the covariance structure of repeated measures with the corresponding epsilon corrections, effect sizes with confidence intervals, and confidence intervals of cell means. It distributes the ANOVA-kun functions &lt;https://riseki.cloudfree.jp/?ANOVA%E5%90%9B&gt;, which are widely used for factorial designs in Japanese psychology and whose author is listed in the Authors field, without changing their computations; the methods and their references are documented on that page, and the results are returned as objects that print the original tables.">
+<meta property="og:image" content="https://kosugitti.github.io/anovakun/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -47,8 +53,11 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="anovakun">anovakun<a class="anchor" aria-label="anchor" href="#anovakun"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="anovakun-">anovakun 
+<a class="anchor" aria-label="anchor" href="#anovakun-"></a>
+</h1>
+</div>
 <p>井関龍太氏による分散分析関数「ANOVA君」(anovakun)を，R パッケージとしてインストールできる形にまとめるためのリポジトリです。</p>
 <ul>
 <li>作者：井関龍太(大正大学)</li>
@@ -60,20 +69,24 @@
 <div class="section level2">
 <h2 id="インストール">インストール<a class="anchor" aria-label="anchor" href="#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB"></a>
 </h2>
+<p>CRAN から入れられます。</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"kosugitti/anovakun"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"anovakun"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kosugitti/anovakun" class="external-link">anovakun</a></span><span class="op">)</span></span></code></pre></div>
+<p>開発版は GitHub から入れられます。</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"kosugitti/anovakun"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="使い方">使い方<a class="anchor" aria-label="anchor" href="#%E4%BD%BF%E3%81%84%E6%96%B9"></a>
 </h2>
 <p>本家と同じです。たとえば AsBC 計画(A が被験者間，B と C が被験者内)なら次のとおりです。</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/anovakun.html">anovakun</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"AsBC"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p>オプションの一覧は <code><a href="reference/anovakun.html">?anovakun</a></code> か，本家のページを参照してください。</p>
 <p>本家との違いは，結果をオブジェクトとして返すことです。そのまま呼べば本家と同じ表が表示され，代入すれば表示せずに結果を取っておけます。</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/anovakun.html">anovakun</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"AsBC"</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, peta <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># 何も表示されない</span></span>
 <span><span class="va">res</span>                                                <span class="co"># 本家と同じ表</span></span>
 <span><span class="va">res</span><span class="op">[[</span><span class="st">"ANOVA TABLE"</span><span class="op">]</span><span class="op">]</span>                               <span class="co"># 分散分析表の部分(tech = TRUE と同じリスト)</span></span></code></pre></div>
@@ -82,7 +95,7 @@
 <h2 id="状態">状態<a class="anchor" aria-label="anchor" href="#%E7%8A%B6%E6%85%8B"></a>
 </h2>
 <p>パッケージ版 1.1.0 は本家 4.9.0 を収めています。本家の原本は <code>inst/original/</code> に置き，本家の関数とパッケージ版が同じデータ・同じ指定で同じ結果を返すことをテスト(<code>tests/testthat/</code>)で確かめています。本家からの変更点(いずれも計算結果には影響しません)は <code>NEWS.md</code> に一覧があります。本家の次の版が公開されたら差し替えます(本家ページを週1回自動で確認し，新版があれば Issue を立てます)。</p>
-<p>CRAN への登録を準備中です。</p>
+<p>1.1.0 は 2026年11月20日に <a href="https://CRAN.R-project.org/package=anovakun" class="external-link">CRAN</a> に登録されました。</p>
 </div>
 <div class="section level2">
 <h2 id="質問と不具合の報告">質問と不具合の報告<a class="anchor" aria-label="anchor" href="#%E8%B3%AA%E5%95%8F%E3%81%A8%E4%B8%8D%E5%85%B7%E5%90%88%E3%81%AE%E5%A0%B1%E5%91%8A"></a>
